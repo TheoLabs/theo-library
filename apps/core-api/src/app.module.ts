@@ -8,9 +8,10 @@ import { ContextMiddleware, UUIDMiddleware } from '@middlewares';
 import { CommonModule } from '@common/common.module';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { ExceptionFilter } from '@libs/filters';
+import { AdminModule } from '@services/admin.module';
 
 @Module({
-  imports: [ConfigsModule, DatabasesModule, CommonModule, EventEmitterModule.forRoot()],
+  imports: [ConfigsModule, DatabasesModule, CommonModule, EventEmitterModule.forRoot(), AdminModule],
   controllers: [HealthController],
   providers: [
     TxIdSubscriber,
