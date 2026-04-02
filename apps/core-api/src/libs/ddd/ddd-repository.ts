@@ -31,15 +31,15 @@ export abstract class DddRepository<T extends DddAggregate> {
   }
 
   private async saveEntities(entities: T[]) {
-    const traceId = this.context.get<string>(ContextKey.TXID);
-    entities.forEach((entity) => entity.setTraceId(traceId));
+    // const traceId = this.context.get<string>(ContextKey.TXID);
+    // entities.forEach((entity) => entity.setTraceId(traceId));
     await this.entityManager.save(entities);
   }
 
   private async saveEvents(events: DddEvent[]) {
-    const traceId = this.context.get<string>(ContextKey.TXID);
+    // const traceId = this.context.get<string>(ContextKey.TXID);
     const dddEvents = events.map((event) => DddEvent.fromEvent(event));
-    dddEvents.forEach((event) => event.setTraceId(traceId));
+    // dddEvents.forEach((event) => event.setTraceId(traceId));
 
     await this.entityManager.save(dddEvents);
 
