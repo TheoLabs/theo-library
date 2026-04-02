@@ -28,7 +28,7 @@
       "@libs/*": ["libs/*"],
       "@services/*": ["services/*"],
       "@middlewares": ["middlewares"],
-      "@commons": ["commons"]
+      "@common/*": ["common/*"]
     }
   }
 }
