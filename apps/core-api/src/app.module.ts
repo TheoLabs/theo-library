@@ -6,7 +6,8 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { TxIdSubscriber, RequestLoggerInterceptor } from '@libs/interceptors';
 import { ContextMiddleware, UUIDMiddleware } from '@middlewares';
 import { CommonModule } from '@common/common.module';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+import { ExceptionFilter } from '@libs/filters';
 
 @Module({
   imports: [ConfigsModule, DatabasesModule, CommonModule, EventEmitterModule.forRoot()],
@@ -16,6 +17,10 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
     {
       provide: APP_INTERCEPTOR,
       useClass: RequestLoggerInterceptor,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: ExceptionFilter,
     },
   ],
 })
