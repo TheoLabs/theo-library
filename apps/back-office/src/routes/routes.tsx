@@ -1,5 +1,6 @@
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { DashboardScreen } from "@screens";
+import { BaseLayOut } from "@components";
 
 export function AppRouter() {
   // 1. destructure props
@@ -14,14 +15,8 @@ export function AppRouter() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          element={
-            <>
-              <Outlet />
-            </>
-          }
-        >
-          <Route path="/" element={<DashboardScreen />} />
+        <Route element={<BaseLayOut />}>
+          <Route path="/dashboard" element={<DashboardScreen />} />
         </Route>
       </Routes>
     </BrowserRouter>
