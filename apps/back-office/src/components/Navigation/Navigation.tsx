@@ -6,7 +6,6 @@ import {
   ListItemButton,
   ListItemText,
   ListItemIcon,
-  Tooltip,
   Collapse,
 } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -84,67 +83,65 @@ function MenuList({ item }: { item: MenuItem }) {
   return (
     <>
       <ListItem disablePadding sx={{ display: "block" }}>
-        <Tooltip title={item.text} placement="right">
-          <ListItemButton
-            onClick={handleClick}
+        <ListItemButton
+          onClick={handleClick}
+          sx={{
+            minHeight: "48px",
+            justifyContent: "initial",
+            padding: "12px 8px 12px 20px",
+            margin: "0 16px",
+            backgroundColor: isSelected ? "#EDF0F4" : "transparent",
+            "&::before": isSelected
+              ? {
+                  content: '""',
+                  position: "absolute",
+                  left: 0,
+                  top: 0,
+                  bottom: 0,
+                  width: "6px",
+                  backgroundColor: theme.palette.primary.main,
+                }
+              : undefined,
+          }}
+        >
+          <ListItemIcon
             sx={{
-              minHeight: "48px",
-              justifyContent: "initial",
-              padding: "12px 8px 12px 20px",
-              margin: "0 16px",
-              backgroundColor: isSelected ? "#EDF0F4" : "transparent",
-              "&::before": isSelected
-                ? {
-                    content: '""',
-                    position: "absolute",
-                    left: 0,
-                    top: 0,
-                    bottom: 0,
-                    width: "6px",
-                    backgroundColor: theme.palette.primary.main,
-                  }
-                : undefined,
+              minWidth: 0,
+              marginRight: "12px",
+              justifyContent: "center",
+              color: isSelected
+                ? theme.palette.primary.main
+                : theme.palette.primary.light,
             }}
           >
-            <ListItemIcon
-              sx={{
-                minWidth: 0,
-                marginRight: "12px",
-                justifyContent: "center",
+            {item.icon}
+          </ListItemIcon>
+
+          <ListItemText
+            primary={item.text}
+            slotProps={{
+              primary: {
+                whiteSpace: "nowrap",
+                fontSize: "16px",
+                fontWeight: 700,
                 color: isSelected
                   ? theme.palette.primary.main
                   : theme.palette.primary.light,
-              }}
-            >
-              {item.icon}
-            </ListItemIcon>
-
-            <ListItemText
-              primary={item.text}
-              slotProps={{
-                primary: {
-                  whiteSpace: "nowrap",
-                  fontSize: "16px",
-                  fontWeight: 700,
-                  color: isSelected
-                    ? theme.palette.primary.main
-                    : theme.palette.primary.light,
-                },
+              },
+            }}
+          />
+          {hasChildren && (
+            <ExpandMoreIcon
+              sx={{
+                color: isSelected
+                  ? theme.palette.primary.main
+                  : theme.palette.primary.light,
+                transform: open ? "rotate(180deg)" : "rotate(0deg)",
+                transition: "transform 0.2s ease-in-out",
               }}
             />
-            {hasChildren && (
-              <ExpandMoreIcon
-                sx={{
-                  color: isSelected
-                    ? theme.palette.primary.main
-                    : theme.palette.primary.light,
-                  transform: open ? "rotate(180deg)" : "rotate(0deg)",
-                  transition: "transform 0.2s ease-in-out",
-                }}
-              />
-            )}
-          </ListItemButton>
-        </Tooltip>
+          )}
+        </ListItemButton>
       </ListItem>
 
       {/* 하위 메뉴 영역 */}

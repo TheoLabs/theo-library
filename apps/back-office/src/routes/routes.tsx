@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { DashboardScreen } from "@screens";
 import { BaseLayOut } from "@components";
 
@@ -16,7 +16,12 @@ export function AppRouter() {
     <BrowserRouter>
       <Routes>
         <Route element={<BaseLayOut />}>
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/dashboard" element={<DashboardScreen />} />
+
+          <Route path="/library">
+            <Route index element={<div>library</div>} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>

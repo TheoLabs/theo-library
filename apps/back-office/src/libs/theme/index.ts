@@ -8,12 +8,32 @@ export const theme = createTheme({
       main: "#1B258F",
       light: "#44474E",
     },
+    grey: {
+      100: "#E0E3E6",
+    },
+    background: {
+      default: "#F7F9FC",
+      paper: "#FFF",
+    },
   },
+  spacing: "4px",
   components: {
     MuiPaper: {
       styleOverrides: {
         root: {
           boxShadow: shadow,
+        },
+      },
+    },
+    MuiButton: {
+      defaultProps: {
+        disableElevation: true,
+        variant: "contained",
+      },
+      styleOverrides: {
+        root: {
+          borderRadius: "12px",
+          fontWeight: 500,
         },
       },
     },
