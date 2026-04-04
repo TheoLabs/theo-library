@@ -30,21 +30,20 @@ export const CustomDataGrid = forwardRef<HTMLDivElement, CustomDataGridProps>(
         rows={rows}
         columns={columnsWithHeaderClass}
         loading={loading}
-        // hideFooterPagination
-        // hideFooter
-        showCellVerticalBorder
+        hideFooterPagination
+        hideFooter
         disableColumnMenu
         disableColumnSorting
         disableRowSelectionOnClick
-        rowHeight={36}
-        columnHeaderHeight={36}
+        rowHeight={56}
+        columnHeaderHeight={56}
         sx={{
           fontSize: "12px",
           overflow: "hidden",
           borderRadius: "0 0 12px 12px",
           border: "none",
           "& .MuiDataGrid-columnHeader": {
-            backgroundColor: `${theme.palette.background.default}`,
+            backgroundColor: `${theme.palette.grey[200]}`,
             color: `${theme.palette.primary.light}`,
             fontSize: "14px",
             fontWeight: 500,

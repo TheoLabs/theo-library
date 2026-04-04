@@ -23,8 +23,9 @@ export function ListViewHeader(props: {
     <Box
       sx={{
         padding: "24px 24px 32px",
-        background: theme.palette.background.default,
+        background: theme.palette.grey[200],
         borderRadius: "12px 12px 0 0",
+        borderBottom: `1px solid ${theme.palette.grey[100]}`,
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",

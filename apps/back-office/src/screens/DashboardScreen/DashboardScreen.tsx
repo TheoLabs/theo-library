@@ -6,13 +6,18 @@ import {
   type GridColDef,
   FilterButton,
   ExportButton,
+  Pagination,
+  Title,
 } from "@components";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { theme } from "@libs/theme";
 
 export function DashboardScreen() {
   // 1. destructure props
   // 2. lib hooks
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+
   // 3. state hooks
   // 4. query hooks
   // 5. form hooks
@@ -57,10 +62,13 @@ export function DashboardScreen() {
         flexDirection: "column",
         height: "100%",
         gap: 9,
+        overflow: "hidden",
       }}
     >
-      {/* 상단 카드 그룹 섹션 */}
       <Box>
+        <Title title="대시보드" summary="자산 및 라이센스 주기 실시간 현황" />
+      </Box>
+      <Box sx={{ flexShrink: 0 }}>
         <Grid container spacing={6}>
           <Grid size={{ xs: 6, lg: 3 }}>
             <CardBox>hi</CardBox>
@@ -77,6 +85,7 @@ export function DashboardScreen() {
         </Grid>
       </Box>
 
+      {/* 중앙 DataGrid 컨테이너 */}
       <Box
         sx={{
           display: "flex",
@@ -84,20 +93,51 @@ export function DashboardScreen() {
           borderRadius: "12px",
           border: `1px solid ${theme.palette.grey[100]}`,
           background: theme.palette.background.paper,
+          flex: 1,
+          minHeight: 0,
+          overflow: "hidden",
         }}
       >
-        <ListViewHeader
-          title="도서관 계약 목록"
-          summary="엔터프라이즈 자산 배포 계약의 전체 현황입니다."
-          filterButton={<FilterButton />}
-          exportButton={<ExportButton />}
-        />
-        <CustomDataGrid
-          rows={[]}
-          columns={columns}
-          loading={false}
-          headerClassName=""
-        />
+        <Box sx={{ flexShrink: 0 }}>
+          <ListViewHeader
+            title="도서관 계약 목록"
+            summary="엔터프라이즈 자산 배포 계약의 전체 현황입니다."
+            filterButton={<FilterButton />}
+            exportButton={<ExportButton />}
+          />
+        </Box>
+
+        <Box sx={{ flex: 1, minHeight: 0, width: "100%" }}>
+          <CustomDataGrid
+            rows={[
+              {
+                id: 1,
+                contractType: "",
+                startOn: "",
+                endOn: "",
+                status: "",
+              },
+            ]}
+            columns={columns}
+            loading={false}
+            headerClassName=""
+          />
+        </Box>
+
+        <Box sx={{ flexShrink: 0 }}>
+          <Pagination
+            page={page}
+            limit={limit}
+            totalCount={300}
+            onLimitChange={setLimit}
+            onChange={setPage}
+          />
+        </Box>
+      </Box>
+
+      {/* 하단 새로 추가된 카드가 찌그러지지 않게 보호 */}
+      <Box sx={{ flexShrink: 0 }}>
+        <CardBox>hihi</CardBox>
       </Box>
     </Box>
   );

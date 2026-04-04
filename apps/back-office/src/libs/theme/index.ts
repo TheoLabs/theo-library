@@ -10,10 +10,15 @@ export const theme = createTheme({
     },
     grey: {
       100: "#E0E3E6",
+      200: "#FAFCFD",
     },
     background: {
       default: "#F7F9FC",
       paper: "#FFF",
+    },
+    text: {
+      primary: "#1B258F",
+      secondary: "#44474E",
     },
   },
   spacing: "4px",

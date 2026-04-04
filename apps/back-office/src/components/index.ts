@@ -5,3 +5,6 @@ export * from "./ExportButton";
 export * from "./ListViewHeader";
 export * from "./FilterButton";
 export * from "./Navigation";
+export * from "./Pagination";
+export * from "./SearchTextField";
+export * from "./Title";

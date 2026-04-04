@@ -1,7 +1,17 @@
-import { Box, Drawer, Toolbar, AppBar, Typography } from "@mui/material";
+import {
+  Box,
+  Drawer,
+  Toolbar,
+  AppBar,
+  Typography,
+  Divider,
+  Avatar,
+} from "@mui/material";
 import { Outlet } from "react-router-dom";
 import { Navigation } from "../Navigation";
-import { theme } from "../../libs/theme";
+import { theme } from "@libs/theme";
+import { SearchTextField } from "../SearchTextField";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 
 const drawerWidth = 240;
 const headerHeight = 80;
@@ -30,13 +40,42 @@ export function BaseLayOut() {
       >
         {/* 1. 실제 상단바 높이 적용 */}
         <Toolbar sx={{ minHeight: `${headerHeight}px !important` }}>
-          {/* <Typography
-            variant="h6"
-            color="text.primary"
-            sx={{ fontWeight: 600 }}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              gap: "16px",
+              width: "100%",
+              padding: "0 24px",
+            }}
           >
-            Dashboard
-          </Typography> */}
+            <SearchTextField placeholder="도서관명 검색..." />
+            <Box sx={{ display: "flex", alignItems: "center", gap: "16px" }}>
+              <NotificationsIcon sx={{ color: theme.palette.text.secondary }} />
+              <Divider orientation="vertical" flexItem />
+              <Box sx={{ display: "flex", alignItems: "center", gap: "16px" }}>
+                <Box>
+                  <Typography
+                    sx={{ fontWeight: 600, color: theme.palette.text.primary }}
+                  >
+                    {/* TODO: 유저 정보 표시 */}
+                    김정호님
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "12px",
+                      fontWeight: 400,
+                      color: theme.palette.text.secondary,
+                    }}
+                  >
+                    사내 관리자
+                  </Typography>
+                </Box>
+                <Avatar sx={{ width: 40, height: 40 }} />
+              </Box>
+            </Box>
+          </Box>
         </Toolbar>
       </AppBar>
 
@@ -89,7 +128,7 @@ export function BaseLayOut() {
         component="main"
         sx={{
           flexGrow: 1,
-          padding: "16px 32px",
+          padding: "16px 32px 32px 32px",
           height: "100vh",
           display: "flex",
           flexDirection: "column",
