@@ -10,8 +10,11 @@ export class AdminMemberService extends DddService {
     super();
   }
 
-  async list({}, options?: PaginationOptions) {
-    const [admins, total] = await Promise.all([this.adminRepository.find({}, options), this.adminRepository.count({})]);
+  async list({ searchKey, searchValue }: { searchKey?: string; searchValue?: string }, options?: PaginationOptions) {
+    const [admins, total] = await Promise.all([
+      this.adminRepository.find({ searchKey, searchValue }, { options }),
+      this.adminRepository.count({ searchKey, searchValue }),
+    ]);
 
     return { items: admins.map((admin) => admin.toInstance(AdminResponseDto)), total };
   }

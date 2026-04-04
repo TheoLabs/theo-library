@@ -1,8 +1,7 @@
 export const OrderType = {
-  ASC: 'ASC',
-  DESC: 'DESC',
+  ASC: "ASC",
+  DESC: "DESC",
 } as const;
-
 export type OrderType = (typeof OrderType)[keyof typeof OrderType];
 
 /**

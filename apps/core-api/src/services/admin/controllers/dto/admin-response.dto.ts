@@ -1,4 +1,4 @@
-import type { IAdminResponse } from '@theo-library/shared';
+import type { IAdminResponse, AdminRoleType } from '@theo-library/shared';
 import { Exclude, Expose } from 'class-transformer';
 
 @Exclude()
@@ -11,6 +11,9 @@ export class AdminResponseDto implements IAdminResponse {
 
   @Expose()
   email: string;
+
+  @Expose()
+  role: AdminRoleType;
 
   @Expose()
   createdAt: Date;

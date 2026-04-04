@@ -1,6 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { DddAggregate } from '@libs/ddd';
 import { randomId } from '@libs/utils';
+import { AdminRoleType } from '@theo-library/shared';
 
 type Ctor = {
   name: string;
@@ -14,6 +15,9 @@ export class Admin extends DddAggregate {
 
   @Column({ comment: '이름' })
   name: string;
+
+  @Column({ type: 'enum', enum: AdminRoleType, comment: '역할' })
+  role: AdminRoleType;
 
   @Column({ comment: '이메일' })
   email: string;
