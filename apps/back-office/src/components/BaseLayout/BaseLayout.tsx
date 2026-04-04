@@ -72,7 +72,7 @@ export function BaseLayOut() {
                     사내 관리자
                   </Typography>
                 </Box>
-                <Avatar sx={{ width: 40, height: 40 }} />
+                <Avatar sx={{ width: 40, height: 40 }}>JH</Avatar>
               </Box>
             </Box>
           </Box>

@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
-import { DashboardScreen } from "@screens";
+import { DashboardScreen, MemberScreen } from "@screens";
 import { BaseLayOut } from "@components";
+import { router } from "./const";
 
 export function AppRouter() {
   // 1. destructure props
@@ -22,6 +23,8 @@ export function AppRouter() {
           <Route path="/library">
             <Route index element={<div>library</div>} />
           </Route>
+
+          <Route path={router.SYSTEM.MEMBER} element={<MemberScreen />} />
         </Route>
       </Routes>
     </BrowserRouter>

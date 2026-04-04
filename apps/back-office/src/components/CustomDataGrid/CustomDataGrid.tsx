@@ -49,6 +49,11 @@ export const CustomDataGrid = forwardRef<HTMLDivElement, CustomDataGridProps>(
             fontWeight: 500,
             padding: "8px 24px",
           },
+          "& .MuiDataGrid-cell": {
+            color: theme.palette.text.secondary, // 모던한 진한 회색 (또는 theme.palette.text.primary 사용)
+            fontSize: "14px",
+            padding: "0 24px",
+          },
           "& .MuiDataGrid-filler": {
             backgroundColor: "#fff",
           },

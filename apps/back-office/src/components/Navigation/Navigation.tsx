@@ -15,6 +15,7 @@ import MenuBookIcon from "@mui/icons-material/MenuBook";
 import MovieIcon from "@mui/icons-material/Movie";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { router } from "@routes";
 
 interface MenuItem {
   text: string;
@@ -27,24 +28,26 @@ const MenuItems: MenuItem[] = [
   {
     text: "대시보드",
     icon: <DashboardIcon />,
-    path: "/dashboard",
+    path: router.DASHBOARD.INDEX,
   },
   {
     text: "도서관/계약 관리",
     icon: <MenuBookIcon />,
     children: [
-      { text: "도서관 목록", path: "/library" },
-      { text: "계약 등록", path: "/contract" },
-      { text: "라이센스 관리", path: "/license" },
+      { text: "도서관 목록", path: router.LIBRARY.INDEX },
+      { text: "계약 등록", path: router.LIBRARY.CONTRACT },
+      { text: "라이센스 관리", path: router.LIBRARY.LICENSE },
     ],
   },
   {
     text: "콘텐츠 관리",
     icon: <MovieIcon />,
+    path: router.CONTENT.INDEX,
   },
   {
     text: "시스템 설정",
     icon: <SettingsIcon />,
+    children: [{ text: "계정 관리", path: router.SYSTEM.MEMBER }],
   },
 ];
 
