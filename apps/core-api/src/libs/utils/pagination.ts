@@ -1,23 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { type IPaginationParams, OrderType } from '@theo-library/shared';
 
-export enum OrderType {
-  ASC = 'ASC',
-  DESC = 'DESC',
-}
+export { OrderType } from '@theo-library/shared';
 
-export interface PaginationOptions {
-  page?: number;
+export type PaginationOptions = IPaginationParams;
 
-  limit?: number;
-
-  sort?: string;
-
-  order?: OrderType;
-}
-
-export class PaginationDto {
+export class PaginationDto implements IPaginationParams {
   @ApiProperty({ description: '페이지 번호', example: 1, default: 1, required: false })
   @Type(() => Number)
   @IsNumber()

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { DddService } from '@libs/ddd';
 import { AdminRepository } from '../repository/admin.repository';
 import { PaginationOptions } from '@libs/utils';
+import { AdminResponseDto } from '../controllers/dto';
 
 @Injectable()
 export class AdminMemberService extends DddService {
@@ -12,6 +13,6 @@ export class AdminMemberService extends DddService {
   async list({}, options?: PaginationOptions) {
     const [admins, total] = await Promise.all([this.adminRepository.find({}, options), this.adminRepository.count({})]);
 
-    return { items: admins, total };
+    return { items: admins.map((admin) => admin.toInstance(AdminResponseDto)), total };
   }
 }
