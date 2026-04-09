@@ -11,6 +11,7 @@ import {
 import { theme } from "@libs/theme";
 import { useState, useMemo } from "react";
 import EditIcon from "@mui/icons-material/Edit";
+import { useAdminList } from "@features/admin/hooks";
 
 export function MemberScreen() {
   // 1. destructure props
@@ -20,72 +21,9 @@ export function MemberScreen() {
   const [limit, setLimit] = useState(10);
 
   // 4. query hooks
+  const { admins, isLoading } = useAdminList({ page, limit });
+
   // 5. form hooks
-  const admins = [
-    {
-      id: 1,
-      name: "홍길동",
-      email: "[EMAIL_ADDRESS]",
-      role: "사내 관리자",
-      status: "활성",
-    },
-    {
-      id: 2,
-      name: "홍길동",
-      email: "[EMAIL_ADDRESS]",
-      role: "사내 관리자",
-      status: "활성",
-    },
-    {
-      id: 3,
-      name: "홍길동",
-      email: "[EMAIL_ADDRESS]",
-      role: "사내 관리자",
-      status: "활성",
-    },
-    {
-      id: 4,
-      name: "홍길동",
-      email: "[EMAIL_ADDRESS]",
-      role: "사내 관리자",
-      status: "활성",
-    },
-    {
-      id: 5,
-      name: "홍길동",
-      email: "[EMAIL_ADDRESS]",
-      role: "사내 관리자",
-      status: "활성",
-    },
-    {
-      id: 6,
-      name: "홍길동",
-      email: "[EMAIL_ADDRESS]",
-      role: "사내 관리자",
-      status: "활성",
-    },
-    {
-      id: 7,
-      name: "홍길동",
-      email: "[EMAIL_ADDRESS]",
-      role: "사내 관리자",
-      status: "활성",
-    },
-    {
-      id: 8,
-      name: "홍길동",
-      email: "[EMAIL_ADDRESS]",
-      role: "사내 관리자",
-      status: "활성",
-    },
-    {
-      id: 9,
-      name: "홍길동",
-      email: "[EMAIL_ADDRESS]",
-      role: "사내 관리자",
-      status: "활성",
-    },
-  ];
   // 6. calculate values
   const columns = useMemo<GridColDef[]>(
     () => [
@@ -186,14 +124,18 @@ export function MemberScreen() {
         </Box>
 
         <Box sx={{ flex: 1, minHeight: 0, width: "100%" }}>
-          <CustomDataGrid rows={admins} columns={columns} loading={false} />
+          <CustomDataGrid
+            rows={admins?.items || []}
+            columns={columns}
+            loading={false}
+          />
         </Box>
 
         <Box sx={{ flexShrink: 0 }}>
           <Pagination
             page={page}
             limit={limit}
-            totalCount={300}
+            totalCount={admins?.total}
             onLimitChange={setLimit}
             onChange={setPage}
           />
