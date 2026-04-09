@@ -1,7 +1,8 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import { DddAggregate } from '@libs/ddd';
 import { PrimaryGeneratedColumn } from 'typeorm';
 import { ClientStatus } from '@theo-library/shared';
+import { Contract } from '../../contract/domain/contract.entity';
 
 type Ctor = {
   name: string;
@@ -31,6 +32,9 @@ export class Client extends DddAggregate {
   @Column({ type: 'enum', enum: ClientStatus, comment: '상태' })
   status: ClientStatus;
 
+  @OneToMany(() => Contract, (contract) => contract.client)
+  contract: Contract;
+
   constructor(args: Ctor) {
     super();
 
@@ -41,7 +45,7 @@ export class Client extends DddAggregate {
       this.address = args.address;
 
       // NOTE: 초기화
-      this.status = ClientStatus.ACTIVE;
+      this.status = ClientStatus.PENDING;
     }
   }
 }

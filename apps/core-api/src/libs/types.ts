@@ -1,1 +1,1 @@
-export type { CalendarDte } from '@theo-library/shared';
+export type { CalendarDate } from '@theo-library/shared';

@@ -12,8 +12,3 @@ export interface IClientResponse {
   createdAt: Date | string;
   updatedAt: Date | string;
 }
-
-// export interface IClientQueryDto {
-//   searchKey?: string;
-//   searchValue?: string;
-// }
