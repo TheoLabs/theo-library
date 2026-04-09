@@ -4,7 +4,7 @@ export const httpClient = (() => {
   let _authorization = "";
 
   const axiosInstance = axios.create({
-    baseURL: import.meta.env.VITE_CORE_API_URL,
+    baseURL: `${import.meta.env.VITE_CORE_API_URL}/admins`,
     headers: {
       Authorization: "",
     },

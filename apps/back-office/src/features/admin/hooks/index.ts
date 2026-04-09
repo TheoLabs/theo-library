@@ -1,9 +1,4 @@
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  keepPreviousData,
-} from "@tanstack/react-query";
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { adminRepository } from "../api";
 import type { AdminListParams } from "../models";
 
@@ -27,36 +22,6 @@ export const useAdminList = (params: AdminListParams) => {
   return { admins, isLoading };
 };
 
-// export const useAdminDetail = (id: number) => {
-//   const { data: admin, isLoading } = useQuery({
-//     queryKey: adminKeys.detail(id),
-//     queryFn: () => adminRepository.retrieve(id),
-//   });
+// 3. mutations
 
-//   return { admin, isLoading };
-// };
-
-// // 3. mutations
-// export const useCreateAdmin = () => {
-//   const queryClient = useQueryClient();
-
-//   return useMutation({
-//     mutationFn: (body: AdminCreateBody) => adminRepository.create(body),
-//     onSuccess: () => {
-//       queryClient.invalidateQueries({ queryKey: adminKeys.all });
-//     },
-//   });
-// };
-
-// export const useUpdateAdmin = () => {
-//   const queryClient = useQueryClient();
-
-//   return useMutation({
-//     mutationFn: (body: { id: number; status?: AdminStatus }) => adminRepository.update(body),
-//     onSuccess: () => {
-//       queryClient.invalidateQueries({ queryKey: adminKeys.all });
-//     },
-//   });
-// };
-
-// // 4. custom hook
+// 4. custom hook

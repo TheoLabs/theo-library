@@ -23,6 +23,8 @@ export function MemberScreen() {
   // 4. query hooks
   const { admins, isLoading } = useAdminList({ page, limit });
 
+  console.log(admins);
+
   // 5. form hooks
   // 6. calculate values
   const columns = useMemo<GridColDef[]>(
