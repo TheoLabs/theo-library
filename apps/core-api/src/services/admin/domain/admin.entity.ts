@@ -8,7 +8,7 @@ type Ctor = {
   email: string;
 };
 
-@Entity('admin')
+@Entity()
 export class Admin extends DddAggregate {
   @PrimaryGeneratedColumn()
   id: string;
