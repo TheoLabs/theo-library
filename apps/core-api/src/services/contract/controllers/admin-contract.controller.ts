@@ -9,6 +9,9 @@ import { AdminContractResponseDto, ContractCreateDto } from './dto';
 export class AdminContractController {
   constructor(private readonly adminContractService: AdminContractService) {}
 
+  /**
+   * 해당 고객사의 계약 등록
+   */
   @Post(':clientId/contracts')
   async create(@Param('clientId', ParseIntPipe) clientId: number, @Body() body: ContractCreateDto) {
     // 1. Destructure body, params, query
@@ -32,6 +35,24 @@ export class AdminContractController {
     // 2. Get context
     // 3. Get result
     const data = await this.adminContractService.list({ clientId, ...options });
+
+    // 4. Send response
+    return { data };
+  }
+
+  /**
+   * 해당 고객사의 계약 상세 조회
+   */
+  @Get(':clientId/contracts/:contractId')
+  @ApiResponse(AdminContractResponseDto)
+  async retrieve(
+    @Param('clientId', ParseIntPipe) clientId: number,
+    @Param('contractId', ParseIntPipe) contractId: number
+  ) {
+    // 1. Destructure body, params, query
+    // 2. Get context
+    // 3. Get result
+    const data = await this.adminContractService.retrieve({ clientId, contractId });
 
     // 4. Send response
     return { data };

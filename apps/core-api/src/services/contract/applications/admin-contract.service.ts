@@ -55,4 +55,14 @@ export class AdminContractService extends DddService {
 
     return { items: contracts.map((contract) => contract.toInstance(AdminContractResponseDto)), total };
   }
+
+  async retrieve({ clientId, contractId }: { clientId: number; contractId: number }) {
+    const [contract] = await this.contractRepository.find({ clientId, id: contractId });
+
+    if (!contract) {
+      throw new BadRequestException('존재하지 않는 계약입니다.', { cause: '존재하지 않는 계약입니다.' });
+    }
+
+    return contract.toInstance(AdminContractResponseDto);
+  }
 }
