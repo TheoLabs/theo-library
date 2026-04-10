@@ -13,6 +13,13 @@ export const ContractStatus = {
 export type ContractStatus =
   (typeof ContractStatus)[keyof typeof ContractStatus];
 
+export interface IContractCreateBody {
+  clientId: number;
+  type: ContractType;
+  startOn: CalendarDate;
+  endOn: CalendarDate;
+}
+
 export interface IContractResponse {
   id: string;
   clientId: number;

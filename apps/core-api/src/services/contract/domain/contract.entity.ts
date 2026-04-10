@@ -49,4 +49,8 @@ export class Contract extends DddAggregate {
       this.status = ContractStatus.ACTIVE;
     }
   }
+
+  static of(args: Ctor) {
+    return new Contract(args);
+  }
 }
