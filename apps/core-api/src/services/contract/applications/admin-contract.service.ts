@@ -29,15 +29,16 @@ export class AdminContractService extends DddService {
     startOn: CalendarDate;
     endOn: CalendarDate;
   }) {
-    const [client] = await this.clientRepository.find({ id: clientId });
+    const [[client, existingContract]] = await Promise.all([
+      this.clientRepository.find({ id: clientId }),
+      this.contractRepository.find({ clientId, status: ContractStatus.ACTIVE }),
+    ]);
 
     if (!client) {
       throw new BadRequestException('존재하지 않는 고객사입니다.', { cause: '존재하지 않는 고객사입니다.' });
     }
 
-    const [existedContract] = await this.contractRepository.find({ clientId, status: ContractStatus.ACTIVE });
-
-    if (existedContract) {
+    if (existingContract) {
       throw new BadRequestException('이미 활성화된 계약이 존재합니다.', { cause: '이미 활성화된 계약이 존재합니다.' });
     }
 
