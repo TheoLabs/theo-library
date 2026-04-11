@@ -1,26 +1,20 @@
 import { Box, Button, Divider, Typography } from "@mui/material";
-import {
-  Title,
-  ListViewHeader,
-  CustomDataGrid,
-  Pagination,
-  FilterButton,
-  ExportButton,
-  CardBox,
-  SearchTextField,
-} from "@components";
-import { theme } from "@libs/theme";
+import { Title } from "@components";
 import { useState } from "react";
+import {
+  ClientSearchSection,
+  ClientDetailSection,
+} from "@features/client/components";
 import AddIcon from "@mui/icons-material/Add";
 
 export function ClientScreen() {
   // 1. destructure props
   // 2. lib hooks
   // 3. state hooks
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
+  const [selectedClientId, setSelectedClientId] = useState<number>();
 
   // 4. query hooks
+
   // 5. form hooks
   // 6. calculate values
   // 7. effect hooks
@@ -44,20 +38,26 @@ export function ClientScreen() {
         </Button>
       </Box>
       <Box sx={{ display: "flex", gap: 4, height: "100%" }}>
-        <CardBox sx={{ minWidth: "360px", flexDirection: "column", gap: 2 }}>
-          <SearchTextField
-            placeholder="도서관명을 입력하세요."
-            sx={{ width: "100%" }}
-          />
-
-          <Divider />
-        </CardBox>
-
+        <ClientSearchSection
+          selectedClientId={selectedClientId}
+          onSelect={setSelectedClientId}
+        />
         <Divider orientation="vertical" />
 
-        <Box sx={{ display: "flex", flex: 1, backgroundColor: "blue" }}>
-          fas
-        </Box>
+        {selectedClientId ? (
+          <ClientDetailSection clientId={selectedClientId} />
+        ) : (
+          <Box
+            sx={{
+              flex: 1,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="h6">도서관을 선택해주세요.</Typography>
+          </Box>
+        )}
       </Box>
     </Box>
   );

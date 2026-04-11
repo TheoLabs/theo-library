@@ -1,12 +1,4 @@
 /**
- * 단건 응답
- * @example { data: { id: '1', name: 'John' } }
- */
-export interface ISingleResponse<T> {
-  data: T;
-}
-
-/**
  * 페이지네이션 데이터
  */
 export interface IPaginatedData<T> {

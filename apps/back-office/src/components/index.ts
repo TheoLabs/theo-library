@@ -8,3 +8,4 @@ export * from "./Navigation";
 export * from "./Pagination";
 export * from "./SearchTextField";
 export * from "./Title";
+export * from "./ViewField";
