@@ -4,27 +4,31 @@ import { theme } from "@libs/theme";
 
 export function CardBox(props: {
   children: React.ReactNode;
+  verticalLine?: boolean;
   sx?: SxProps<Theme>;
 }) {
-  // 1. destructure props
-  const { children, sx } = props;
+  const { children, verticalLine = false, sx } = props;
 
-  // 2. lib hooks
-  // 3. state hooks
-  // 4. query hooks
-  // 5. form hooks
-  // 6. calculate values
-  // 7. effect hooks
-  // 8. handlers
-  // 9. render
   return (
     <Card
       sx={{
         display: "flex",
-        padding: "16px",
+        position: "relative",
+        padding: "16px 16px 16px 20px",
         borderRadius: "12px",
         border: `1px solid ${theme.palette.grey[100]}`,
-        boxShadow: "none",
+        ...(verticalLine && {
+          "&::before": {
+            content: '""',
+            position: "absolute",
+            top: 0,
+            left: 0,
+            bottom: 0,
+            width: "4px",
+            backgroundColor: theme.palette.primary.dark,
+            borderRadius: "12px 0 0 12px",
+          },
+        }),
         ...sx,
       }}
     >

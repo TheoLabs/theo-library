@@ -1,8 +1,10 @@
-import { Box, CircularProgress, Grid, Typography } from "@mui/material";
+import { Box, Chip, CircularProgress, Grid, Typography } from "@mui/material";
 import { useClientDetail } from "../../hooks";
 import { CardBox, ViewField } from "@components";
 import React from "react";
 import BusinessIcon from "@mui/icons-material/Business";
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import { theme } from "@libs/theme";
 
 export function ClientDetailSection(props: { clientId: number }) {
@@ -39,7 +41,10 @@ export function ClientDetailSection(props: { clientId: number }) {
         <React.Fragment>
           <Box sx={{ display: "flex", gap: 2 }}>
             {/* 도서관 기본 정보 */}
-            <CardBox sx={{ flex: 1, flexDirection: "column", gap: 4 }}>
+            <CardBox
+              verticalLine
+              sx={{ flex: 1, flexDirection: "column", gap: 6 }}
+            >
               <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                 <BusinessIcon
                   sx={{
@@ -53,7 +58,7 @@ export function ClientDetailSection(props: { clientId: number }) {
                 </Typography>
               </Box>
 
-              <Grid container spacing={4}>
+              <Grid container spacing={6}>
                 <Grid size={6}>
                   <ViewField label="기관명" value={client.name} />
                 </Grid>
@@ -61,6 +66,7 @@ export function ClientDetailSection(props: { clientId: number }) {
                   <ViewField
                     label="도메인"
                     type="url"
+                    url={`https://${client.subDomain}.theo.com`}
                     value={`https://${client.subDomain}.theo.com`}
                     sx={{
                       fontWeight: "bold",
@@ -77,8 +83,97 @@ export function ClientDetailSection(props: { clientId: number }) {
               </Grid>
             </CardBox>
 
-            {/* 도서관 계약 정보 */}
-            <CardBox sx={{ flex: 1 }}>ds</CardBox>
+            <Box
+              sx={{ display: "flex", flex: 1, flexDirection: "column", gap: 2 }}
+            >
+              {/* 도서관 계약 정보 */}
+              <CardBox
+                sx={{
+                  flexDirection: "column",
+                  backgroundColor: theme.palette.primary.dark,
+                  color: "#FFF",
+                  gap: 4,
+                }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                  <AssignmentIcon sx={{ width: "32px", height: "32px" }} />
+                  <Typography sx={{ fontWeight: 600 }}>계약 정보</Typography>
+                </Box>
+
+                <Grid container spacing={6}>
+                  <Grid size={6}>
+                    <ViewField
+                      darkTheme
+                      label="계약 유형"
+                      value="구독형"
+                      sx={{ fontSize: "24px" }}
+                    />
+                  </Grid>
+                  <Grid size={6}>
+                    <ViewField
+                      darkTheme
+                      label="계약 상태"
+                      type="chip"
+                      value="활성"
+                      sx={{
+                        fontSize: "14px",
+                        backgroundColor: theme.palette.success.main,
+                      }}
+                    />
+                  </Grid>
+                </Grid>
+
+                <Grid container>
+                  <Grid size={12}>
+                    <ViewField
+                      darkTheme
+                      label="계약 기간"
+                      value="2026.01.01 ~ 2026.12.31"
+                      sx={{ fontSize: "16px" }}
+                    />
+                  </Grid>
+                </Grid>
+              </CardBox>
+
+              {/* 계정 정보 */}
+              <CardBox sx={{ flexDirection: "column", gap: 6 }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                  <AdminPanelSettingsOutlinedIcon
+                    sx={{ width: "32px", height: "32px" }}
+                  />
+                  <Typography sx={{ fontWeight: 600, marginTop: 1 }}>
+                    계정 정보
+                  </Typography>
+                </Box>
+
+                <Box
+                  sx={{
+                    display: "flex",
+                    flex: 1,
+                    gap: 2,
+                    padding: "8px 16px",
+                    borderRadius: "12px",
+                    justifyContent: "space-between",
+                    background: theme.palette.background.default,
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      fontSize: "18px",
+                      fontWeight: 600,
+                      color: theme.palette.text.secondary,
+                    }}
+                  >
+                    theo@dobedub.com
+                  </Typography>
+                  <Chip
+                    label="승인 대기중"
+                    color="info"
+                    sx={{ fontSize: "16px", fontWeight: 600 }}
+                  />
+                </Box>
+              </CardBox>
+            </Box>
           </Box>
         </React.Fragment>
       )}
