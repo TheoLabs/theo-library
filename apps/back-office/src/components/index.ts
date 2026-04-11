@@ -5,6 +5,7 @@ export * from "./DialogButton";
 export * from "./ExportButton";
 export * from "./ListViewHeader";
 export * from "./FilterButton";
+export * from "./InputField";
 export * from "./Navigation";
 export * from "./Pagination";
 export * from "./SearchTextField";

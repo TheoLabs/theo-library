@@ -64,7 +64,7 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           padding: "0",
-          margin: "16px 0",
+          margin: "16px 0 48px 0",
         },
       },
     },
