@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
-import { DashboardScreen, MemberScreen } from "@screens";
+import { DashboardScreen, MemberScreen, ClientScreen } from "@screens";
 import { BaseLayOut } from "@components";
 import { router } from "./const";
 
@@ -20,9 +20,7 @@ export function AppRouter() {
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/dashboard" element={<DashboardScreen />} />
 
-          <Route path="/library">
-            <Route index element={<div>library</div>} />
-          </Route>
+          <Route path={router.CLIENT.INDEX} element={<ClientScreen />} />
 
           <Route path={router.SYSTEM.MEMBER} element={<MemberScreen />} />
         </Route>

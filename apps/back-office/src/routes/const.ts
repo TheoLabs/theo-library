@@ -1,6 +1,5 @@
 const dashboard = "/dashboard";
-const library = "/library";
-const contract = "/contracts";
+const clients = "/clients";
 const content = "/contents";
 const members = "/members";
 
@@ -9,10 +8,10 @@ export const router = {
   DASHBOARD: {
     INDEX: dashboard,
   },
-  LIBRARY: {
-    INDEX: library,
-    CONTRACT: `${contract}`,
-    LICENSE: `${library}/license`,
+  CLIENT: {
+    INDEX: clients,
+    CONTRACT: `${clients}/contracts`,
+    LICENSE: `${clients}/license`,
   },
   CONTENT: {
     INDEX: content,

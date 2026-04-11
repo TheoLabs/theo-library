@@ -23,8 +23,6 @@ export function MemberScreen() {
   // 4. query hooks
   const { admins, isLoading } = useAdminList({ page, limit });
 
-  console.log(admins);
-
   // 5. form hooks
   // 6. calculate values
   const columns = useMemo<GridColDef[]>(
@@ -80,7 +78,7 @@ export function MemberScreen() {
         display: "flex",
         flexDirection: "column",
         height: "100%",
-        gap: 9,
+        gap: 4,
         overflow: "hidden",
       }}
     >
@@ -91,10 +89,7 @@ export function MemberScreen() {
           alignItems: "center",
         }}
       >
-        <Title
-          title="계정 관리"
-          summary="사내 관리자 계정 및 도서관 관리자 계정을 관리합니다."
-        />
+        <Title title="계정 관리" />
       </Box>
 
       <Box

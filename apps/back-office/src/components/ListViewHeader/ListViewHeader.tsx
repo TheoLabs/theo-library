@@ -5,6 +5,7 @@ import { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import InputAdornment from "@mui/material/InputAdornment";
+import { SearchTextField } from "../SearchTextField";
 
 export function ListViewHeader(props: {
   title: string;
@@ -158,7 +159,7 @@ export function ListViewHeader(props: {
             )}
 
             {/* 2. 검색 영역 (Input) */}
-            <TextField
+            <SearchTextField
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
               onKeyDown={(e) => {
@@ -180,35 +181,6 @@ export function ListViewHeader(props: {
                       />
                     </InputAdornment>
                   ),
-                },
-              }}
-              sx={{
-                width: "240px",
-                "& .MuiOutlinedInput-root": {
-                  backgroundColor: "#FFFFFF",
-                  borderRadius: "8px",
-                  transition: "all 0.2s ease-in-out",
-                  "& fieldset": {
-                    borderColor: "#E0E3E6",
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "#B0B8C1",
-                  },
-                  "&.Mui-focused fieldset": {
-                    border: "none",
-                  },
-                  "&.Mui-focused": {
-                    boxShadow: "0 0 0 2px rgba(0, 6, 102, 0.2)",
-                  },
-                },
-                "& .MuiInputBase-input": {
-                  fontSize: "14px",
-                  color: "#4D5156",
-                  padding: "8px 0",
-                  "&::placeholder": {
-                    color: "#8B95A1",
-                    opacity: 1,
-                  },
                 },
               }}
             />

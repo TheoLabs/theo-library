@@ -50,7 +50,10 @@ export function BaseLayOut() {
               padding: "0 24px",
             }}
           >
-            <SearchTextField placeholder="도서관명 검색..." />
+            <SearchTextField
+              searchStyle="header"
+              placeholder="도서관명 검색..."
+            />
             <Box sx={{ display: "flex", alignItems: "center", gap: "16px" }}>
               <NotificationsIcon sx={{ color: theme.palette.text.secondary }} />
               <Divider orientation="vertical" flexItem />

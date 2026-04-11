@@ -2,53 +2,77 @@ import { TextField, InputAdornment, type TextFieldProps } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { theme } from "@libs/theme";
 
-export function SearchTextField(props: TextFieldProps) {
+// ✅ TextFieldProps를 확장하여 커스텀 스타일 Prop 추가
+type SearchTextFieldProps = TextFieldProps & {
+  searchStyle?: "default" | "header"; // default: 기존 큰 회색 창, header: 리스트 헤더용 흰색 창
+};
+
+export function SearchTextField({
+  searchStyle = "default",
+  ...props
+}: SearchTextFieldProps) {
+  // 분기 처리를 위한 플래그
+  const isDefault = searchStyle === "default";
+
   return (
     <TextField
       {...props}
-      placeholder={props.placeholder}
+      placeholder={props.placeholder || "검색어를 입력하세요..."}
       variant="outlined"
+      size={isDefault ? "small" : props.size}
       slotProps={{
         ...props.slotProps,
         input: {
           ...props.slotProps?.input,
           startAdornment: (
             <InputAdornment position="start">
-              <SearchIcon sx={{ color: "#000", fontSize: "22px" }} />
+              <SearchIcon
+                sx={{
+                  color: isDefault ? theme.palette.primary.light : "#000",
+                  fontSize: isDefault ? "20px" : "22px",
+                }}
+              />
             </InputAdornment>
           ),
         },
       }}
       sx={{
-        width: "480px",
-        "& .MuiOutlinedInput-root": {
-          backgroundColor: "#EBEFF5",
-          borderRadius: "12px",
-          transition: "all 0.2s ease-in-out",
+        width: isDefault ? "240px" : "480px", // 스타일에 따른 기본 너비
 
-          // 👇 가장 핵심: 기본적으로 생기는 검은 테두리를 완벽하게 없앰
-          "& fieldset": {
-            border: "none",
-          },
+        "& .MuiOutlinedInput-root": isDefault
+          ? {
+              // 👇 Header 스타일: 흰색 배경, 테두리 있음
+              backgroundColor: "#FFFFFF",
+              borderRadius: "8px",
+              transition: "all 0.2s ease-in-out",
+              "& fieldset": { borderColor: "#E0E3E6" },
+              "&:hover fieldset": { borderColor: "#B0B8C1" },
+              "&.Mui-focused fieldset": { border: "none" },
+              "&.Mui-focused": { boxShadow: "0 0 0 2px rgba(0, 6, 102, 0.2)" },
+            }
+          : {
+              // 👇 Default 스타일: 회색 배경, 테두리 없음
+              backgroundColor: "#EBEFF5",
+              borderRadius: "12px",
+              transition: "all 0.2s ease-in-out",
+              "& fieldset": { border: "none" },
+              "&.Mui-focused": {
+                backgroundColor: "#FFFFFF",
+                boxShadow: `0 0 0 2px ${theme.palette.primary.light}40`,
+              },
+            },
 
-          // 👇 포커스(클릭) 되었을 때의 모던한 효과
-          "&.Mui-focused": {
-            backgroundColor: "#FFFFFF", // 포커스 시 배경을 하얗게
-            boxShadow: `0 0 0 2px ${theme.palette.primary.light}40`, // 테마 색상을 활용한 부드러운 빛번짐(Glow) 효과
-          },
-        },
-
-        // 텍스트 및 플레이스홀더 스타일링
         "& .MuiInputBase-input": {
-          padding: "10px 14px 10px 0", // 높이 조절 및 아이콘 우측 여백
+          padding: isDefault ? "8px 0" : "10px 14px 10px 0",
           fontSize: "14px",
           color: "#4D5156",
-          fontWeight: 500,
+          fontWeight: isDefault ? 400 : 500,
           "&::placeholder": {
-            color: "#8B95A1", // 플레이스홀더 색상
-            opacity: 1, // 브라우저 기본 투명도 덮어쓰기
+            color: "#8B95A1",
+            opacity: 1,
           },
         },
+        // 👇 외부에서 전달한 sx가 있다면 가장 마지막에 덮어씌움 (유연성 확보)
         ...props.sx,
       }}
     />

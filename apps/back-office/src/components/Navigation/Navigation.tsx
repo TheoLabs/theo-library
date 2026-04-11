@@ -34,9 +34,9 @@ const MenuItems: MenuItem[] = [
     text: "도서관/계약 관리",
     icon: <MenuBookIcon />,
     children: [
-      { text: "도서관 목록", path: router.LIBRARY.INDEX },
-      { text: "계약 등록", path: router.LIBRARY.CONTRACT },
-      { text: "라이센스 관리", path: router.LIBRARY.LICENSE },
+      { text: "도서관 목록", path: router.CLIENT.INDEX },
+      { text: "계약 등록", path: router.CLIENT.CONTRACT },
+      { text: "라이센스 관리", path: router.CLIENT.LICENSE },
     ],
   },
   {
