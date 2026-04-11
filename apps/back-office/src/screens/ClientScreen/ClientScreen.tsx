@@ -1,9 +1,10 @@
 import { Box, Button, Divider, Typography } from "@mui/material";
-import { Title } from "@components";
+import { Title, DialogButton } from "@components";
 import { useState } from "react";
 import {
   ClientSearchSection,
   ClientDetailSection,
+  ClientAddButton,
 } from "@features/client/components";
 import AddIcon from "@mui/icons-material/Add";
 
@@ -32,10 +33,18 @@ export function ClientScreen() {
         }}
       >
         <Title title="도서관 조회" />
-        <Button sx={{ height: "48px" }}>
-          <AddIcon sx={{ mr: 2 }} />
-          <Typography sx={{ fontWeight: 800 }}>도서관 등록</Typography>
-        </Button>
+        <DialogButton
+          render={({ onOpen }) => (
+            <Button onClick={onOpen} sx={{ height: "48px" }}>
+              <AddIcon sx={{ mr: 2 }} />
+              <Typography sx={{ fontWeight: 800 }}>도서관 등록</Typography>
+            </Button>
+          )}
+        >
+          {({ onClose, onKeyDown }) => (
+            <ClientAddButton onClose={onClose} onKeyDown={onKeyDown} />
+          )}
+        </DialogButton>
       </Box>
       <Box sx={{ display: "flex", gap: 4, height: "100%" }}>
         <ClientSearchSection
