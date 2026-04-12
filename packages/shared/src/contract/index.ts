@@ -1,4 +1,5 @@
 import { CalendarDate } from "../common";
+import { type IPaginationParams } from "../pagination";
 
 export const ContractType = {
   PURCHASE: "purchase",
@@ -13,8 +14,7 @@ export const ContractStatus = {
 export type ContractStatus =
   (typeof ContractStatus)[keyof typeof ContractStatus];
 
-export interface IContractCreateBody {
-  clientId: number;
+export interface IContractCreate {
   type: ContractType;
   startOn: CalendarDate;
   endOn: CalendarDate;
@@ -31,7 +31,9 @@ export interface IContractResponse {
   updatedAt: Date;
 }
 
-// export interface IClientQueryDto {
-//   searchKey?: string;
-//   searchValue?: string;
-// }
+export interface IContractQuery extends IPaginationParams {
+  searchKey?: string;
+  searchValue?: string;
+  types?: ContractType[];
+  statuses?: ContractStatus[];
+}

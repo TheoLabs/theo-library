@@ -37,7 +37,6 @@ export function ViewField(props: {
             fontSize: "16px",
             fontWeight: "bold",
             color: darkTheme ? "#FFF" : "#000",
-
             ...sx,
           }}
         >

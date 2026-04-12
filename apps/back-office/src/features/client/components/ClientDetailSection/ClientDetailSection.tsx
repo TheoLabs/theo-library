@@ -6,6 +6,8 @@ import BusinessIcon from "@mui/icons-material/Business";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import { theme } from "@libs/theme";
+import { useContractList } from "../../../contract/hooks";
+import { ContractStatus } from "@theo-library/shared";
 
 export function ClientDetailSection(props: { clientId: number }) {
   // 1. destructure props
@@ -15,6 +17,14 @@ export function ClientDetailSection(props: { clientId: number }) {
   // 3. state hooks
   // 4. query hooks
   const { client, isLoading } = useClientDetail({ clientId });
+  const { contracts, isContractLoading } = useContractList({
+    page: 1,
+    limit: 1,
+    clientId,
+    filter: {
+      statuses: [ContractStatus.ACTIVE],
+    },
+  });
 
   // 5. form hooks
   // 6. calculate values
@@ -39,7 +49,7 @@ export function ClientDetailSection(props: { clientId: number }) {
         </Box>
       ) : (
         <React.Fragment>
-          <Box sx={{ display: "flex", gap: 2 }}>
+          <Box sx={{ display: "flex", gap: 4 }}>
             {/* 도서관 기본 정보 */}
             <CardBox
               verticalLine
@@ -84,7 +94,7 @@ export function ClientDetailSection(props: { clientId: number }) {
             </CardBox>
 
             <Box
-              sx={{ display: "flex", flex: 1, flexDirection: "column", gap: 2 }}
+              sx={{ display: "flex", flex: 1, flexDirection: "column", gap: 4 }}
             >
               {/* 도서관 계약 정보 */}
               <CardBox

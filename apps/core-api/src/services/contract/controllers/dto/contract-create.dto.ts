@@ -1,7 +1,7 @@
-import { ContractType, IContractCreateBody, type CalendarDate } from '@theo-library/shared';
+import { ContractType, IContractCreate, type CalendarDate } from '@theo-library/shared';
 import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
 
-export class ContractCreateDto implements Omit<IContractCreateBody, 'clientId'> {
+export class ContractCreateDto implements IContractCreate {
   @IsEnum(ContractType)
   @IsNotEmpty()
   type: ContractType;
