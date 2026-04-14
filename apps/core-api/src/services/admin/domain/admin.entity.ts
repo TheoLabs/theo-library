@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 import { DddAggregate } from '@libs/ddd';
 import { randomId } from '@libs/utils';
 import { AdminRoleType } from '@theo-library/shared';
@@ -12,10 +12,10 @@ type Ctor = {
 
 @Entity()
 export class Admin extends DddAggregate {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   id: string;
 
-  @Column({ comment: '속한 도서관 ID (도서관 계정일 경우에만 존재)' })
+  @Column({ nullable: true, comment: '속한 도서관 ID (도서관 계정일 경우에만 존재)' })
   clientId?: number;
 
   @Column({ comment: '이름' })
