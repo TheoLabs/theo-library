@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { RedisOptions } from 'bullmq';
 import { type DataSourceOptions } from 'typeorm';
 
 @Injectable()
@@ -16,5 +17,9 @@ export class ConfigsService {
 
   get mysql() {
     return this.configService.get<DataSourceOptions>('mysql')!;
+  }
+
+  get redis() {
+    return this.configService.get<RedisOptions>('redis')!;
   }
 }

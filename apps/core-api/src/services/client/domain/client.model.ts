@@ -1,8 +1,9 @@
-import { Column, Entity, OneToMany } from 'typeorm';
+import { AfterInsert, Column, Entity, OneToMany } from 'typeorm';
 import { DddAggregate } from '@libs/ddd';
 import { PrimaryGeneratedColumn } from 'typeorm';
 import { ClientStatus } from '@theo-library/shared';
 import { Contract } from '../../contract/domain/contract.entity';
+import { ClientCreatedEvent } from './events';
 
 type Ctor = {
   name: string;
@@ -33,6 +34,11 @@ export class Client extends DddAggregate {
 
   @OneToMany(() => Contract, (contract) => contract.client)
   contract: Contract;
+
+  @AfterInsert()
+  private afterInsert() {
+    this.publishEvent(new ClientCreatedEvent({ clientId: this.id, subDomain: this.subDomain }));
+  }
 
   private constructor(args: Ctor) {
     super();

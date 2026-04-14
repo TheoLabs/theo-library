@@ -3,6 +3,7 @@ import { DddService } from '@libs/ddd';
 import { AdminRepository } from '../repository/admin.repository';
 import { PaginationOptions } from '@libs/utils';
 import { AdminResponseDto } from '../controllers/dto';
+import { Transactional } from '@libs/decorators';
 
 @Injectable()
 export class AdminMemberService extends DddService {
@@ -18,4 +19,6 @@ export class AdminMemberService extends DddService {
 
     return { items: admins.map((admin) => admin.toInstance(AdminResponseDto)), total };
   }
+
+  // @Transactional()
 }
