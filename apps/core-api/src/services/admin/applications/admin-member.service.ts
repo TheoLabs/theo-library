@@ -3,7 +3,11 @@ import { DddService } from '@libs/ddd';
 import { AdminRepository } from '../repository/admin.repository';
 import { PaginationOptions } from '@libs/utils';
 import { AdminResponseDto } from '../controllers/dto';
-import { Transactional } from '@libs/decorators';
+import { EventHandler, Transactional } from '@libs/decorators';
+import { ClientCreatedEvent } from '../../client/domain/events';
+import { QueueName } from '@databases';
+import { Admin } from '../domain/admin.entity';
+import { AdminRoleType } from '@theo-library/shared';
 
 @Injectable()
 export class AdminMemberService extends DddService {
@@ -20,5 +24,20 @@ export class AdminMemberService extends DddService {
     return { items: admins.map((admin) => admin.toInstance(AdminResponseDto)), total };
   }
 
-  // @Transactional()
+  @Transactional()
+  @EventHandler(ClientCreatedEvent, QueueName.ADMIN, {
+    description: '도서관이 생성되면 도서관 계정을 Pending 상태로 생성해준다.',
+  })
+  async handleClientCreatedEvent(event: ClientCreatedEvent) {
+    const { clientId, name, subDomain } = event;
+
+    const admin = Admin.of({
+      clientId,
+      name,
+      email: `${subDomain}@theo.com`,
+      role: AdminRoleType.LIBRARY,
+    });
+
+    await this.adminRepository.save([admin]);
+  }
 }

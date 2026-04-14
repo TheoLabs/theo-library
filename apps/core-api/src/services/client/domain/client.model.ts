@@ -37,7 +37,7 @@ export class Client extends DddAggregate {
 
   @AfterInsert()
   private afterInsert() {
-    this.publishEvent(new ClientCreatedEvent({ clientId: this.id, subDomain: this.subDomain }));
+    this.publishEvent(new ClientCreatedEvent({ clientId: this.id, name: this.name, subDomain: this.subDomain }));
   }
 
   private constructor(args: Ctor) {

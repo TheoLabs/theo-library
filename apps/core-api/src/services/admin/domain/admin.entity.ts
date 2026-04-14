@@ -5,13 +5,18 @@ import { AdminRoleType } from '@theo-library/shared';
 
 type Ctor = {
   name: string;
+  clientId?: number;
   email: string;
+  role: AdminRoleType;
 };
 
 @Entity()
 export class Admin extends DddAggregate {
   @PrimaryGeneratedColumn()
   id: string;
+
+  @Column({ comment: '속한 도서관 ID (도서관 계정일 경우에만 존재)' })
+  clientId?: number;
 
   @Column({ comment: '이름' })
   name: string;
@@ -22,13 +27,19 @@ export class Admin extends DddAggregate {
   @Column({ comment: '이메일' })
   email: string;
 
-  constructor(args: Ctor) {
+  private constructor(args: Ctor) {
     super();
 
     if (args) {
       this.id = randomId();
+      this.clientId = args.clientId;
       this.name = args.name;
+      this.role = args.role;
       this.email = args.email;
     }
+  }
+
+  static of(args: Ctor) {
+    return new Admin(args);
   }
 }
