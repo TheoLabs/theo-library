@@ -1,10 +1,15 @@
-import type { AdminRoleType, IPaginationParams } from "@theo-library/shared";
+import type {
+  AdminRoleType,
+  IPaginationParams,
+  AdminStatusType,
+} from "@theo-library/shared";
 
 export interface AdminModel {
   id: number;
   name: string;
   email: string;
-  status: AdminRoleType;
+  role: AdminRoleType;
+  status: AdminStatusType;
   createdAt: Date;
   updatedAt: Date;
 }

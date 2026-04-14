@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 import { DddAggregate } from '@libs/ddd';
 import { randomId } from '@libs/utils';
-import { AdminRoleType } from '@theo-library/shared';
+import { AdminRoleType, AdminStatusType } from '@theo-library/shared';
 
 type Ctor = {
   name: string;
@@ -24,6 +24,9 @@ export class Admin extends DddAggregate {
   @Column({ type: 'enum', enum: AdminRoleType, comment: '역할' })
   role: AdminRoleType;
 
+  @Column({ type: 'enum', enum: AdminStatusType, comment: '상태' })
+  status: AdminStatusType;
+
   @Column({ comment: '이메일' })
   email: string;
 
@@ -36,6 +39,7 @@ export class Admin extends DddAggregate {
       this.name = args.name;
       this.role = args.role;
       this.email = args.email;
+      this.status = args.role === AdminRoleType.SUPER ? AdminStatusType.ACTIVE : AdminStatusType.PENDING;
     }
   }
 

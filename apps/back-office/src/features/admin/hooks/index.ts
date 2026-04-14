@@ -1,6 +1,9 @@
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { adminRepository } from "../api";
 import type { AdminListParams } from "../models";
+import { AdminStatusType } from "@theo-library/shared";
+import { useCallback } from "react";
+import { theme } from "@libs/theme";
 
 // 1. query keys
 const adminKeys = {
@@ -25,3 +28,15 @@ export const useAdminList = (params: AdminListParams) => {
 // 3. mutations
 
 // 4. custom hook
+export const useAdminStatusLabel = () => {
+  return useCallback((status: AdminStatusType) => {
+    switch (status) {
+      case AdminStatusType.PENDING:
+        return { label: "대기", color: theme.palette.chip.warning };
+      case AdminStatusType.ACTIVE:
+        return { label: "활성", color: theme.palette.chip.success };
+      case AdminStatusType.INACTIVE:
+        return { label: "비활성", color: theme.palette.chip.error };
+    }
+  }, []);
+};

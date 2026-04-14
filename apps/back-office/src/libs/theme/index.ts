@@ -2,6 +2,25 @@ import { createTheme } from "@mui/material";
 
 const shadow = "0 4px 20px 2px rgba(0,0,0,0.05)";
 
+declare module "@mui/material/styles" {
+  interface Palette {
+    chip: {
+      info: string;
+      success: string;
+      warning: string;
+      error: string;
+    };
+  }
+  interface PaletteOptions {
+    chip: {
+      info: string;
+      success: string;
+      warning: string;
+      error: string;
+    };
+  }
+}
+
 export const theme = createTheme({
   palette: {
     primary: {
@@ -22,6 +41,12 @@ export const theme = createTheme({
     text: {
       primary: "#1B258F",
       secondary: "#44474E",
+    },
+    chip: {
+      info: "#015dee",
+      success: "#4CAF50",
+      warning: "#FF9800",
+      error: "#F44336",
     },
   },
   spacing: "4px",
