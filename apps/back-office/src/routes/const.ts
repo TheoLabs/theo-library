@@ -10,7 +10,6 @@ export const router = {
   },
   CLIENT: {
     INDEX: clients,
-    CONTRACT: `${clients}/contracts`,
     LICENSE: `${clients}/license`,
   },
   CONTENT: {

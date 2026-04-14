@@ -3,11 +3,10 @@ import { useClientDetail } from "../../hooks";
 import { CardBox, ViewField } from "@components";
 import React from "react";
 import BusinessIcon from "@mui/icons-material/Business";
-import AssignmentIcon from "@mui/icons-material/Assignment";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import { theme } from "@libs/theme";
-import { useContractList } from "../../../contract/hooks";
-import { ContractStatus } from "@theo-library/shared";
+
+import { ContractCard } from "@features/contract/components";
 
 export function ClientDetailSection(props: { clientId: number }) {
   // 1. destructure props
@@ -17,14 +16,6 @@ export function ClientDetailSection(props: { clientId: number }) {
   // 3. state hooks
   // 4. query hooks
   const { client, isLoading } = useClientDetail({ clientId });
-  const { contracts, isContractLoading } = useContractList({
-    page: 1,
-    limit: 1,
-    clientId,
-    filter: {
-      statuses: [ContractStatus.ACTIVE],
-    },
-  });
 
   // 5. form hooks
   // 6. calculate values
@@ -60,7 +51,6 @@ export function ClientDetailSection(props: { clientId: number }) {
                   sx={{
                     width: "32px",
                     height: "32px",
-                    color: theme.palette.secondary.main,
                   }}
                 />
                 <Typography sx={{ fontWeight: 600, marginTop: 2 }}>
@@ -97,53 +87,7 @@ export function ClientDetailSection(props: { clientId: number }) {
               sx={{ display: "flex", flex: 1, flexDirection: "column", gap: 4 }}
             >
               {/* 도서관 계약 정보 */}
-              <CardBox
-                sx={{
-                  flexDirection: "column",
-                  backgroundColor: theme.palette.primary.dark,
-                  color: "#FFF",
-                  gap: 4,
-                }}
-              >
-                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                  <AssignmentIcon sx={{ width: "32px", height: "32px" }} />
-                  <Typography sx={{ fontWeight: 600 }}>계약 정보</Typography>
-                </Box>
-
-                <Grid container spacing={6}>
-                  <Grid size={6}>
-                    <ViewField
-                      darkTheme
-                      label="계약 유형"
-                      value="구독형"
-                      sx={{ fontSize: "24px" }}
-                    />
-                  </Grid>
-                  <Grid size={6}>
-                    <ViewField
-                      darkTheme
-                      label="계약 상태"
-                      type="chip"
-                      value="활성"
-                      sx={{
-                        fontSize: "14px",
-                        backgroundColor: theme.palette.success.main,
-                      }}
-                    />
-                  </Grid>
-                </Grid>
-
-                <Grid container>
-                  <Grid size={12}>
-                    <ViewField
-                      darkTheme
-                      label="계약 기간"
-                      value="2026.01.01 ~ 2026.12.31"
-                      sx={{ fontSize: "16px" }}
-                    />
-                  </Grid>
-                </Grid>
-              </CardBox>
+              <ContractCard clientId={clientId} />
 
               {/* 계정 정보 */}
               <CardBox sx={{ flexDirection: "column", gap: 6 }}>
