@@ -11,6 +11,7 @@ export interface AdminModel {
 
 export interface AdminListParams extends IPaginationParams {
   filter?: {
+    clientId?: number;
     searchKey?: string;
     searchValue?: string;
     roles?: AdminRoleType[];

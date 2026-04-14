@@ -7,6 +7,9 @@ export class AdminResponseDto implements IAdminResponse {
   id: string;
 
   @Expose()
+  clientId?: string;
+
+  @Expose()
   name: string;
 
   @Expose()

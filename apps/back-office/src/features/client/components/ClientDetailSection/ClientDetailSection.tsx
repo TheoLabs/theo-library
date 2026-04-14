@@ -1,12 +1,11 @@
-import { Box, Chip, CircularProgress, Grid, Typography } from "@mui/material";
+import { Box, CircularProgress, Grid, Typography } from "@mui/material";
 import { useClientDetail } from "../../hooks";
 import { CardBox, ViewField } from "@components";
 import React from "react";
 import BusinessIcon from "@mui/icons-material/Business";
-import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import { theme } from "@libs/theme";
-
 import { ContractCard } from "@features/contract/components";
+import { AccountCard } from "@features/admin/components";
 
 export function ClientDetailSection(props: { clientId: number }) {
   // 1. destructure props
@@ -90,43 +89,7 @@ export function ClientDetailSection(props: { clientId: number }) {
               <ContractCard clientId={clientId} />
 
               {/* 계정 정보 */}
-              <CardBox sx={{ flexDirection: "column", gap: 6 }}>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                  <AdminPanelSettingsOutlinedIcon
-                    sx={{ width: "32px", height: "32px" }}
-                  />
-                  <Typography sx={{ fontWeight: 600, marginTop: 1 }}>
-                    계정 정보
-                  </Typography>
-                </Box>
-
-                <Box
-                  sx={{
-                    display: "flex",
-                    flex: 1,
-                    gap: 2,
-                    padding: "8px 16px",
-                    borderRadius: "12px",
-                    justifyContent: "space-between",
-                    background: theme.palette.background.default,
-                  }}
-                >
-                  <Typography
-                    sx={{
-                      fontSize: "18px",
-                      fontWeight: 600,
-                      color: theme.palette.text.secondary,
-                    }}
-                  >
-                    theo@dobedub.com
-                  </Typography>
-                  <Chip
-                    label="승인 대기중"
-                    color="info"
-                    sx={{ fontSize: "16px", fontWeight: 600 }}
-                  />
-                </Box>
-              </CardBox>
+              <AccountCard clientId={clientId} />
             </Box>
           </Box>
         </React.Fragment>

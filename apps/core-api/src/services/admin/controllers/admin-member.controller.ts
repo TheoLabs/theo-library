@@ -14,11 +14,11 @@ export class AdminMemberController {
   @Get()
   async list(@Query() query: AdminMemberQueryDto) {
     // 1. Destructure body, params, query
-    const { searchKey, searchValue, ...options } = query;
+    const { searchKey, searchValue, clientId, roles, ...options } = query;
 
     // 2. Get context
     // 3. Get result
-    const data = await this.adminMemberService.list({ searchKey, searchValue }, options);
+    const data = await this.adminMemberService.list({ searchKey, searchValue, clientId, roles }, options);
 
     // 4. Send response
     return { data };
