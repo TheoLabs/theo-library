@@ -9,7 +9,6 @@ type Ctor = {
   subDomain: string;
   contactNumber: string;
   address: string;
-  status: ClientStatus;
 };
 
 @Entity()
@@ -35,7 +34,7 @@ export class Client extends DddAggregate {
   @OneToMany(() => Contract, (contract) => contract.client)
   contract: Contract;
 
-  constructor(args: Ctor) {
+  private constructor(args: Ctor) {
     super();
 
     if (args) {
@@ -47,5 +46,9 @@ export class Client extends DddAggregate {
       // NOTE: 초기화
       this.status = ClientStatus.PENDING;
     }
+  }
+
+  static of(args: Ctor) {
+    return new Client(args);
   }
 }

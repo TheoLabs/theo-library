@@ -1,12 +1,23 @@
-import { Controller, Get, Query, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Query, Param, ParseIntPipe, Post, Body } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AdminClientService } from '../applications/admin-client.service';
-import { AdminClientQueryDto } from './dto';
+import { AdminClientQueryDto, ClientCreateDto } from './dto';
 
 @ApiTags('[관리자] 도서관 API')
 @Controller('admins/clients')
 export class AdminClientController {
   constructor(private readonly adminClientService: AdminClientService) {}
+
+  @Post()
+  async create(@Body() body: ClientCreateDto) {
+    // 1. Destructure body, params, query
+    // 2. Get context
+    // 3. Get result
+    await this.adminClientService.create(body);
+
+    // 4. Send response
+    return { data: {} };
+  }
 
   /**
    * 도서관 목록 조회

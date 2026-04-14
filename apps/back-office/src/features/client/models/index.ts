@@ -1,4 +1,8 @@
-import type { ClientStatus, IPaginationParams } from "@theo-library/shared";
+import type {
+  ClientStatus,
+  IClientCreateDto,
+  IPaginationParams,
+} from "@theo-library/shared";
 
 export interface ClientModel {
   id: number;
@@ -17,3 +21,5 @@ export interface ClientListParams extends IPaginationParams {
     searchValue?: string;
   };
 }
+
+export type ClientCreateParams = IClientCreateDto;

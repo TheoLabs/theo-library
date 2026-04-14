@@ -1,6 +1,7 @@
-import { useQuery, keepPreviousData } from "@tanstack/react-query";
+import { useQuery, keepPreviousData, useMutation } from "@tanstack/react-query";
 import { clientRepository } from "../api";
-import type { ClientListParams } from "../models";
+import type { ClientCreateParams, ClientListParams } from "../models";
+import { useQueryClient } from "@tanstack/react-query";
 
 // 1. query keys
 const clientKeys = {
@@ -33,5 +34,15 @@ export const useClientDetail = ({ clientId }: { clientId: number }) => {
 };
 
 // 3. mutations
+export const useClientCreate = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (body: ClientCreateParams) => clientRepository.create(body),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: clientKeys.all });
+    },
+  });
+};
 
 // 4. custom hook

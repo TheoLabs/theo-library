@@ -16,18 +16,21 @@ import { InputField } from "@components";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
+import { formatPhoneNumber } from "@libs/utils";
+import { useClientCreate } from "../../hooks";
+import { useSnackbar } from "notistack";
 
 const zodSchema = z.object({
   name: z.string().min(1, "도서관명을 입력해주세요."),
   subDomain: z.string().min(1, "서브도메인을 입력해주세요."),
-  contactNumber1: z.string().min(1, "연락처를 입력해주세요."),
-  contactNumber2: z.string().optional(),
+  contactNumber: z.string().min(1, "연락처를 입력해주세요."),
   address: z.string().min(1, "주소를 입력해주세요."),
 });
 
 type ZodSchema = z.infer<typeof zodSchema>;
 
-export function ClientAddButton(props: {
+export function ClientAddDialog(props: {
   onClose: () => void;
   onKeyDown: (e: React.KeyboardEvent<HTMLDivElement>) => void;
 }) {
@@ -35,20 +38,25 @@ export function ClientAddButton(props: {
   const { onClose, onKeyDown } = props;
 
   // 2. lib hooks
+  const { enqueueSnackbar } = useSnackbar();
+
   // 3. state hooks
   // 4. query hooks
+  const { mutate: createClient } = useClientCreate();
+
   // 5. form hooks
   const {
     control,
     handleSubmit,
+    watch,
+    setValue,
     formState: { isDirty, isValid },
   } = useForm<ZodSchema>({
     mode: "onTouched",
     defaultValues: {
       name: "",
       subDomain: "",
-      contactNumber1: "",
-      contactNumber2: "",
+      contactNumber: "",
       address: "",
     },
     resolver: zodResolver(zodSchema),
@@ -56,7 +64,18 @@ export function ClientAddButton(props: {
 
   // 6. calculate values
   const isDisabled = !isDirty || !isValid;
+  const contactNumberValue = watch("contactNumber");
+
   // 7. effect hooks
+  useEffect(() => {
+    const formattedNumber = formatPhoneNumber(contactNumberValue);
+    if (contactNumberValue !== formattedNumber) {
+      setValue("contactNumber", formattedNumber, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+    }
+  }, [contactNumberValue, setValue]);
   // 8. handlers
   // 9. render
   return (
@@ -114,19 +133,11 @@ export function ClientAddButton(props: {
                 label="연락처1"
                 required
                 placeholder="'-'은 자동으로 채워집니다."
-                name="contactNumber1"
+                name="contactNumber"
                 control={control}
               />
             </Grid>
             <Grid size={6}>
-              <InputField
-                label="연락처2"
-                placeholder="'-'은 자동으로 채워집니다."
-                name="contactNumber2"
-                control={control}
-              />
-            </Grid>
-            <Grid size={12}>
               <InputField
                 label="주소"
                 required
@@ -148,7 +159,19 @@ export function ClientAddButton(props: {
           <Button
             disabled={isDisabled}
             onClick={handleSubmit((data) => {
-              console.log(data);
+              createClient(data, {
+                onSuccess: () => {
+                  enqueueSnackbar("도서관이 성공적으로 등록되었습니다.", {
+                    variant: "success",
+                  });
+                  onClose();
+                },
+                onError: (error) => {
+                  enqueueSnackbar(error.message, {
+                    variant: "error",
+                  });
+                },
+              });
             })}
             sx={{ backgroundColor: theme.palette.primary.main }}
           >

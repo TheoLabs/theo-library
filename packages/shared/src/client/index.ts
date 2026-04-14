@@ -20,3 +20,10 @@ export interface IClientQueryDto {
   searchKey?: string;
   searchValue?: string;
 }
+
+export interface IClientCreateDto {
+  name: string;
+  subDomain: string;
+  contactNumber: string;
+  address: string;
+}

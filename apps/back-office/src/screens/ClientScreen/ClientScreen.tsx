@@ -4,7 +4,7 @@ import { useState } from "react";
 import {
   ClientSearchSection,
   ClientDetailSection,
-  ClientAddButton,
+  ClientAddDialog,
 } from "@features/client/components";
 import AddIcon from "@mui/icons-material/Add";
 
@@ -42,7 +42,7 @@ export function ClientScreen() {
           )}
         >
           {({ onClose, onKeyDown }) => (
-            <ClientAddButton onClose={onClose} onKeyDown={onKeyDown} />
+            <ClientAddDialog onClose={onClose} onKeyDown={onKeyDown} />
           )}
         </DialogButton>
       </Box>
