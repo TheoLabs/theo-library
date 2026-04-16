@@ -6,6 +6,8 @@ import {
 } from "@tanstack/react-query";
 import type { ContractCreateBody, ContractListParams } from "../models";
 import { contractRepository } from "../api";
+import { ContractType, ContractStatus } from "@theo-library/shared";
+import { useMemo } from "react";
 
 // 1. query keys
 const contractKeys = {
@@ -41,3 +43,30 @@ export const useCreateContract = () => {
 };
 
 // 4. custom hook
+export const ContractTypeLabel: Record<ContractType, string> = {
+  [ContractType.PURCHASE]: "컨텐츠 구매형",
+  [ContractType.SUBSCRIPTION]: "구독형",
+};
+
+export const ContractStatusLabel: Record<ContractStatus, string> = {
+  [ContractStatus.ACTIVE]: "활성",
+  [ContractStatus.EXPIRED]: "만료",
+};
+
+export const useContractTypeOptions = () => {
+  return useMemo(() => {
+    return Object.values(ContractType).map((type) => ({
+      label: ContractTypeLabel[type],
+      value: type,
+    }));
+  }, []);
+};
+
+export const useContractStatusOptions = () => {
+  return useMemo(() => {
+    return Object.values(ContractStatus).map((status) => ({
+      label: ContractStatusLabel[status],
+      value: status,
+    }));
+  }, []);
+};

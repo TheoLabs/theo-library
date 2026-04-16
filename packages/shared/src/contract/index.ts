@@ -1,5 +1,5 @@
-import { CalendarDate } from "../common";
-import { type IPaginationParams } from "../pagination";
+import { CalendarDate } from "../common.js";
+import { type IPaginationParams } from "../pagination.js";
 
 export const ContractType = {
   PURCHASE: "purchase",

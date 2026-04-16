@@ -1,11 +1,12 @@
-import { CardBox, ViewField } from "@components";
+import { CardBox, DialogButton, ViewField } from "@components";
 import { theme } from "@libs/theme";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import { Grid, Typography, Box, Button } from "@mui/material";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
-import { useContractList } from "../../hooks";
+import { useContractList, ContractTypeLabel } from "../../hooks";
 import { ContractStatus } from "@theo-library/shared";
 import React from "react";
+import { ContractAddDialog } from "../ContractAddDialog";
 
 export function ContractCard(props: { clientId: number }) {
   // 1. destructure props
@@ -51,19 +52,32 @@ export function ContractCard(props: { clientId: number }) {
             flex: 1,
           }}
         >
-          <Button
-            variant="outlined"
-            startIcon={<AddCircleOutlineRoundedIcon />}
-            sx={{
-              color: theme.palette.background.paper,
-              borderColor: theme.palette.background.paper,
-              borderWidth: "2px",
-              fontWeight: 600,
-              fontSize: "18px",
-            }}
+          <DialogButton
+            render={({ onOpen }) => (
+              <Button
+                variant="outlined"
+                startIcon={<AddCircleOutlineRoundedIcon />}
+                onClick={onOpen}
+                sx={{
+                  color: theme.palette.background.paper,
+                  borderColor: theme.palette.background.paper,
+                  borderWidth: "2px",
+                  fontWeight: 600,
+                  fontSize: "18px",
+                }}
+              >
+                계약 추가
+              </Button>
+            )}
           >
-            계약 추가
-          </Button>
+            {({ onClose, onKeyDown }) => (
+              <ContractAddDialog
+                clientId={clientId}
+                onClose={onClose}
+                onKeyDown={onKeyDown}
+              />
+            )}
+          </DialogButton>
         </Box>
       ) : (
         <React.Fragment>
@@ -72,7 +86,7 @@ export function ContractCard(props: { clientId: number }) {
               <ViewField
                 darkTheme
                 label="계약 유형"
-                value="구독형"
+                value={ContractTypeLabel[contracts.items[0].type]}
                 sx={{ fontSize: "24px" }}
               />
             </Grid>
@@ -81,7 +95,7 @@ export function ContractCard(props: { clientId: number }) {
                 darkTheme
                 label="계약 상태"
                 type="chip"
-                value="활성"
+                value={contracts.items[0].status}
                 sx={{
                   fontSize: "14px",
                   backgroundColor: theme.palette.success.main,
@@ -95,7 +109,7 @@ export function ContractCard(props: { clientId: number }) {
               <ViewField
                 darkTheme
                 label="계약 기간"
-                value="2026.01.01 ~ 2026.12.31"
+                value={`${contracts.items[0].startOn} ~ ${contracts.items[0].endOn}`}
                 sx={{ fontSize: "16px" }}
               />
             </Grid>

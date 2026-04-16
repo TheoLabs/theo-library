@@ -1,17 +1,17 @@
 import type {
-  ClientStatus,
   IContractCreate,
   IPaginationParams,
   IContractQuery,
+  ContractType,
+  ContractStatus,
 } from "@theo-library/shared";
 
 export interface ContractModel {
   id: number;
-  name: string;
-  subDomain: string;
-  contactNumber: string;
-  address: string;
-  status: ClientStatus;
+  type: ContractType;
+  startOn: string;
+  endOn: string;
+  status: ContractStatus;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -1,2 +1,1 @@
 export * from "./ContractAddDialog";
-export * from "./ContractCard";
