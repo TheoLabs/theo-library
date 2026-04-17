@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useClientList } from "@features/client/hooks";
+import { useClientList, useClientStatus } from "@features/client/hooks";
 import { CardBox, SearchTextField } from "@components";
 import { theme } from "@libs/theme";
 import {
@@ -10,6 +10,7 @@ import {
   ListItemText,
   ListItemAvatar,
   Avatar,
+  Chip,
 } from "@mui/material";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 
@@ -21,6 +22,8 @@ export function ClientSearchSection(props: {
   const { onSelect, selectedClientId } = props;
 
   // 2. lib hooks
+  const { getStatusConfig } = useClientStatus();
+
   // 3. state hooks
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
@@ -115,6 +118,7 @@ export function ClientSearchSection(props: {
                   secondary={client.address || "주소 정보 없음"} // 서브 텍스트 예시
                 />
               </ListItemButton>
+
               <Divider sx={{ marginBottom: 1 }} />
             </Box>
           ))}
