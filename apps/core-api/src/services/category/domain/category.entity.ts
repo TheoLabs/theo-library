@@ -24,4 +24,8 @@ export class Category extends DddAggregate {
   static of(args: Ctor) {
     return new Category(args);
   }
+
+  update(args: { name: string }) {
+    this.name = args.name;
+  }
 }

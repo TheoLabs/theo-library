@@ -1,7 +1,10 @@
-import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
+import { ApiResponse } from '@libs/decorators';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AdminCategoryService } from '@services/category/applications/admin-category.service';
-import { CategoryCreateDto } from '@services/category/controllers/dto';
+import { CategoryCreateDto, CategoryUpdateDto } from '@services/category/controllers/dto';
+import { CategoryQueryDto } from '@services/category/controllers/dto/category-query.dto';
+import { CategoryRepository } from '@services/category/repository/category.repository';
 
 @ApiTags('[관리자] 카테고리 API')
 @Controller('admins/categories')
@@ -26,11 +29,13 @@ export class AdminCategoryController {
    * 카테고리 목록 조회
    */
   @Get()
-  async list() {
+  @ApiResponse(CategoryRepository, 'pagination')
+  async list(@Query() query: CategoryQueryDto) {
     // 1. Destructure body, params, query
+    const { searchKey, searchValue, ...options } = query;
     // 2. Get context
     // 3. Get result
-    const data = await this.adminCategoryService.list();
+    const data = await this.adminCategoryService.list({ searchKey, searchValue }, options);
 
     // 4. Send response
     return { data };
@@ -40,11 +45,11 @@ export class AdminCategoryController {
    * 카테고리 수정
    */
   @Put(':id')
-  async update() {
+  async update(@Param('id', ParseIntPipe) id: number, @Body() body: CategoryUpdateDto) {
     // 1. Destructure body, params, query
     // 2. Get context
     // 3. Get result
-    await this.adminCategoryService.update();
+    await this.adminCategoryService.update({ id, ...body });
 
     // 4. Send response
     return { data: {} };
@@ -54,11 +59,11 @@ export class AdminCategoryController {
    * 카테고리 삭제
    */
   @Delete(':id')
-  async remove() {
+  async remove(@Param('id', ParseIntPipe) id: number) {
     // 1. Destructure body, params, query
     // 2. Get context
     // 3. Get result
-    await this.adminCategoryService.remove();
+    await this.adminCategoryService.remove({ id });
 
     // 4. Send response
     return { data: {} };
