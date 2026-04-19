@@ -14,6 +14,8 @@ export const router = {
   },
   CONTENT: {
     INDEX: content,
+    SERIES: `${content}/series`,
+    CATEGORY: `${content}/category`,
   },
   SYSTEM: {
     MEMBER: members,

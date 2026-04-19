@@ -41,7 +41,10 @@ const MenuItems: MenuItem[] = [
   {
     text: "콘텐츠 관리",
     icon: <MovieIcon />,
-    path: router.CONTENT.INDEX,
+    children: [
+      { text: "시리즈 관리", path: router.CONTENT.SERIES },
+      { text: "카테고리 관리", path: router.CONTENT.CATEGORY },
+    ],
   },
   {
     text: "시스템 설정",
