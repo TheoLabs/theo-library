@@ -13,7 +13,7 @@ export const categoryRepository = {
   },
 
   async list(params: CategoryListParams) {
-    return httpClient.get<IPaginatedData<CategoryModel>[]>("/categories", {
+    return httpClient.get<IPaginatedData<CategoryModel>>("/categories", {
       params,
     });
   },

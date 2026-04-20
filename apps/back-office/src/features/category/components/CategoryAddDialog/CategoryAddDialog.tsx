@@ -1,36 +1,30 @@
-import CloseIcon from "@mui/icons-material/Close";
 import {
-  Button,
   Dialog,
+  DialogActions,
   DialogContent,
   DialogTitle,
-  DialogActions,
-  Box,
-  Typography,
-  IconButton,
-  Grid,
   Divider,
+  IconButton,
+  Typography,
+  Box,
+  Button,
 } from "@mui/material";
-import { theme } from "@libs/theme";
-import { InputField } from "@components";
-import { useForm } from "react-hook-form";
+import { useSnackbar } from "notistack";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
-import { formatPhoneNumber } from "@libs/utils";
-import { useClientCreate } from "../../hooks";
-import { useSnackbar } from "notistack";
+import { InputField } from "@components";
+import { useForm } from "react-hook-form";
+import { theme } from "@libs/theme";
+import CloseIcon from "@mui/icons-material/Close";
+import { useCategoryCreate } from "../../hooks";
 
 const zodSchema = z.object({
-  name: z.string().min(1, "도서관명을 입력해주세요."),
-  subDomain: z.string().min(1, "서브도메인을 입력해주세요."),
-  contactNumber: z.string().min(1, "연락처를 입력해주세요."),
-  address: z.string().min(1, "주소를 입력해주세요."),
+  name: z.string().min(1, "카테고리명을 입력해주세요."),
 });
 
 type ZodSchema = z.infer<typeof zodSchema>;
 
-export function ClientAddDialog(props: {
+export function CategoryAddDialog(props: {
   onClose: () => void;
   onKeyDown: (e: React.KeyboardEvent<HTMLDivElement>) => void;
 }) {
@@ -42,41 +36,25 @@ export function ClientAddDialog(props: {
 
   // 3. state hooks
   // 4. query hooks
-  const { mutate: createClient } = useClientCreate();
+  const { mutate: createCategory } = useCategoryCreate();
 
   // 5. form hooks
   const {
-    control,
     handleSubmit,
-    watch,
-    setValue,
-    formState: { isDirty, isValid },
+    control,
+    formState: { isValid, isDirty },
   } = useForm<ZodSchema>({
     mode: "onTouched",
     defaultValues: {
       name: "",
-      subDomain: "",
-      contactNumber: "",
-      address: "",
     },
     resolver: zodResolver(zodSchema),
   });
 
   // 6. calculate values
   const isDisabled = !isDirty || !isValid;
-  const contactNumberValue = watch("contactNumber");
 
   // 7. effect hooks
-  useEffect(() => {
-    const formattedNumber = formatPhoneNumber(contactNumberValue);
-    if (contactNumberValue !== formattedNumber) {
-      setValue("contactNumber", formattedNumber, {
-        shouldValidate: true,
-        shouldDirty: true,
-      });
-    }
-  }, [contactNumberValue, setValue]);
-
   // 8. handlers
   // 9. render
   return (
@@ -86,7 +64,7 @@ export function ClientAddDialog(props: {
       slotProps={{
         paper: {
           sx: {
-            width: "700px",
+            minWidth: "400px",
           },
         },
       }}
@@ -100,7 +78,7 @@ export function ClientAddDialog(props: {
           }}
         >
           <Typography sx={{ fontWeight: 800, fontSize: "24px" }}>
-            도서관 등록
+            카테고리 등록
           </Typography>
           <IconButton onClick={onClose}>
             <CloseIcon />
@@ -112,41 +90,12 @@ export function ClientAddDialog(props: {
 
       <DialogContent>
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-          <Grid container spacing={6}>
-            <Grid size={6}>
-              <InputField
-                label="도서관명"
-                required
-                name="name"
-                control={control}
-              />
-            </Grid>
-            <Grid size={6}>
-              <InputField
-                label="서브도메인"
-                required
-                name="subDomain"
-                control={control}
-              />
-            </Grid>
-            <Grid size={6}>
-              <InputField
-                label="연락처1"
-                required
-                placeholder="'-'은 자동으로 채워집니다."
-                name="contactNumber"
-                control={control}
-              />
-            </Grid>
-            <Grid size={6}>
-              <InputField
-                label="주소"
-                required
-                name="address"
-                control={control}
-              />
-            </Grid>
-          </Grid>
+          <InputField
+            label="카테고리명"
+            required
+            name="name"
+            control={control}
+          />
         </Box>
       </DialogContent>
       <DialogActions>
@@ -160,7 +109,7 @@ export function ClientAddDialog(props: {
           <Button
             disabled={isDisabled}
             onClick={handleSubmit((data) => {
-              createClient(data, {
+              createCategory(data, {
                 onSuccess: () => {
                   enqueueSnackbar("도서관이 성공적으로 등록되었습니다.", {
                     variant: "success",

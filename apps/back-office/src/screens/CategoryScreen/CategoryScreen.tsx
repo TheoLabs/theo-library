@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import {
   Title,
   ListViewHeader,
@@ -7,11 +7,15 @@ import {
   type GridColDef,
   FilterButton,
   ExportButton,
+  DialogButton,
 } from "@components";
 import { theme } from "@libs/theme";
 import { useMemo, useState } from "react";
 import { type CategoryModel } from "@features/category/models";
 import { useCategoryList } from "@features/category/hooks";
+import AddIcon from "@mui/icons-material/Add";
+import { CategoryAddDialog } from "@features/category/components";
+import { format } from "@libs/date";
 
 export function CategoryScreen() {
   // 1. destructure props
@@ -35,12 +39,46 @@ export function CategoryScreen() {
         field: "createdAt",
         headerName: "생성일",
         flex: 1,
+        valueGetter: (value) => format(value, "YYYY-MM-DD HH:mm:ss"),
       },
       {
         field: "action",
         headerName: "동작",
-        renderCell: ({ row }) => {
-          return <div>{row.id}</div>;
+        width: 200,
+        renderCell: ({ row: { id } }) => {
+          return (
+            <Box
+              sx={{
+                display: "flex",
+                width: "100%",
+                height: "100%",
+                gap: 2,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Button
+                variant="outlined"
+                size="small"
+                sx={{
+                  backgroundColor: theme.palette.primary.main,
+                  color: theme.palette.background.paper,
+                }}
+              >
+                수정
+              </Button>
+              <Button
+                variant="outlined"
+                size="small"
+                sx={{
+                  border: `1px solid ${theme.palette.error.main}`,
+                  color: theme.palette.error.main,
+                }}
+              >
+                삭제
+              </Button>
+            </Box>
+          );
         },
       },
     ];
@@ -67,6 +105,18 @@ export function CategoryScreen() {
         }}
       >
         <Title title="카테고리 관리" />
+        <DialogButton
+          render={({ onOpen }) => (
+            <Button onClick={onOpen} sx={{ height: "48px" }}>
+              <AddIcon sx={{ mr: 2 }} />
+              <Typography sx={{ fontWeight: 800 }}>카테고리 등록</Typography>
+            </Button>
+          )}
+        >
+          {({ onClose, onKeyDown }) => (
+            <CategoryAddDialog onClose={onClose} onKeyDown={onKeyDown} />
+          )}
+        </DialogButton>
       </Box>
 
       <Box

@@ -124,7 +124,7 @@ export function MemberScreen() {
           <CustomDataGrid
             rows={admins?.items || []}
             columns={columns}
-            loading={false}
+            loading={isLoading}
           />
         </Box>
 
