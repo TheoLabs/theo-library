@@ -4,12 +4,14 @@ import {
   ListViewHeader,
   Pagination,
   CustomDataGrid,
-  type CustomDataGridProps,
+  type GridColDef,
   FilterButton,
   ExportButton,
 } from "@components";
 import { theme } from "@libs/theme";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { type CategoryModel } from "@features/category/models";
+import { useCategoryList } from "@features/category/hooks";
 
 export function CategoryScreen() {
   // 1. destructure props
@@ -19,8 +21,31 @@ export function CategoryScreen() {
   const [limit, setLimit] = useState(10);
 
   // 4. query hooks
-  // 5. form hooks
+  const { categories, isLoading } = useCategoryList({ page, limit });
+
   // 6. calculate values
+  const columns = useMemo<GridColDef<CategoryModel>[]>(() => {
+    return [
+      {
+        field: "name",
+        headerName: "카테고리명",
+        width: 200,
+      },
+      {
+        field: "createdAt",
+        headerName: "생성일",
+        flex: 1,
+      },
+      {
+        field: "action",
+        headerName: "동작",
+        renderCell: ({ row }) => {
+          return <div>{row.id}</div>;
+        },
+      },
+    ];
+  }, []);
+
   // 7. effect hooks
   // 8. handlers
   // 9. render
@@ -70,21 +95,21 @@ export function CategoryScreen() {
         </Box>
 
         <Box sx={{ flex: 1, minHeight: 0, width: "100%" }}>
-          {/* <CustomDataGrid
-            rows={admins?.items || []}
+          <CustomDataGrid
+            rows={categories?.items || []}
             columns={columns}
-            loading={false}
-          /> */}
+            loading={isLoading}
+          />
         </Box>
 
         <Box sx={{ flexShrink: 0 }}>
-          {/* <Pagination
+          <Pagination
             page={page}
             limit={limit}
-            totalCount={admins?.total}
+            totalCount={categories?.total}
             onLimitChange={setLimit}
             onChange={setPage}
-          /> */}
+          />
         </Box>
       </Box>
     </Box>

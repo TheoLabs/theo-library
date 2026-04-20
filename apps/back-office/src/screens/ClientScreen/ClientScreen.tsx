@@ -15,7 +15,6 @@ export function ClientScreen() {
   const [selectedClientId, setSelectedClientId] = useState<number>();
 
   // 4. query hooks
-
   // 5. form hooks
   // 6. calculate values
   // 7. effect hooks
