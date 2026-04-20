@@ -14,7 +14,10 @@ import { useMemo, useState } from "react";
 import { type CategoryModel } from "@features/category/models";
 import { useCategoryList } from "@features/category/hooks";
 import AddIcon from "@mui/icons-material/Add";
-import { CategoryAddDialog } from "@features/category/components";
+import {
+  CategoryAddDialog,
+  CategoryEditDialog,
+} from "@features/category/components";
 import { format } from "@libs/date";
 
 export function CategoryScreen() {
@@ -45,7 +48,7 @@ export function CategoryScreen() {
         field: "action",
         headerName: "동작",
         width: 200,
-        renderCell: ({ row: { id } }) => {
+        renderCell: ({ row }) => {
           return (
             <Box
               sx={{
@@ -57,16 +60,29 @@ export function CategoryScreen() {
                 alignItems: "center",
               }}
             >
-              <Button
-                variant="outlined"
-                size="small"
-                sx={{
-                  backgroundColor: theme.palette.primary.main,
-                  color: theme.palette.background.paper,
-                }}
+              <DialogButton
+                render={({ onOpen }) => (
+                  <Button
+                    onClick={onOpen}
+                    variant="outlined"
+                    size="small"
+                    sx={{
+                      backgroundColor: theme.palette.primary.main,
+                      color: theme.palette.background.paper,
+                    }}
+                  >
+                    수정
+                  </Button>
+                )}
               >
-                수정
-              </Button>
+                {({ onClose, onKeyDown }) => (
+                  <CategoryEditDialog
+                    category={row}
+                    onClose={onClose}
+                    onKeyDown={onKeyDown}
+                  />
+                )}
+              </DialogButton>
               <Button
                 variant="outlined"
                 size="small"

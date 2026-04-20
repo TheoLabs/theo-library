@@ -1,2 +1,1 @@
-export * from "./CategoryAddDialog";
 export * from "./CategoryEditDialog";

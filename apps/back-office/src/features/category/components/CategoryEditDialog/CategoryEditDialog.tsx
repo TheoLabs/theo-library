@@ -16,7 +16,8 @@ import { InputField } from "@components";
 import { useForm } from "react-hook-form";
 import { theme } from "@libs/theme";
 import CloseIcon from "@mui/icons-material/Close";
-import { useCategoryCreate } from "../../hooks";
+import { useCategoryUpdate } from "../../hooks";
+import type { CategoryModel } from "@features/category/models";
 
 const zodSchema = z.object({
   name: z.string().min(1, "카테고리명을 입력해주세요."),
@@ -24,19 +25,20 @@ const zodSchema = z.object({
 
 type ZodSchema = z.infer<typeof zodSchema>;
 
-export function CategoryAddDialog(props: {
+export function CategoryEditDialog(props: {
+  category: CategoryModel;
   onClose: () => void;
   onKeyDown: (e: React.KeyboardEvent<HTMLDivElement>) => void;
 }) {
   // 1. destructure props
-  const { onClose, onKeyDown } = props;
+  const { category, onClose, onKeyDown } = props;
 
   // 2. lib hooks
   const { enqueueSnackbar } = useSnackbar();
 
   // 3. state hooks
   // 4. query hooks
-  const { mutate: createCategory } = useCategoryCreate();
+  const { mutate: updateCategory } = useCategoryUpdate();
 
   // 5. form hooks
   const {
@@ -46,7 +48,7 @@ export function CategoryAddDialog(props: {
   } = useForm<ZodSchema>({
     mode: "onTouched",
     defaultValues: {
-      name: "",
+      name: category.name,
     },
     resolver: zodResolver(zodSchema),
   });
@@ -78,7 +80,7 @@ export function CategoryAddDialog(props: {
           }}
         >
           <Typography sx={{ fontWeight: 800, fontSize: "24px" }}>
-            카테고리 등록
+            카테고리 수정
           </Typography>
           <IconButton onClick={onClose}>
             <CloseIcon />
@@ -109,19 +111,22 @@ export function CategoryAddDialog(props: {
           <Button
             disabled={isDisabled}
             onClick={handleSubmit((data) => {
-              createCategory(data, {
-                onSuccess: () => {
-                  enqueueSnackbar("카테고리가 성공적으로 등록되었습니다.", {
-                    variant: "success",
-                  });
-                  onClose();
+              updateCategory(
+                { id: category.id, ...data },
+                {
+                  onSuccess: () => {
+                    enqueueSnackbar("카테고리가 성공적으로 수정되었습니다.", {
+                      variant: "success",
+                    });
+                    onClose();
+                  },
+                  onError: (error) => {
+                    enqueueSnackbar(error.message, {
+                      variant: "error",
+                    });
+                  },
                 },
-                onError: (error) => {
-                  enqueueSnackbar(error.message, {
-                    variant: "error",
-                  });
-                },
-              });
+              );
             })}
             sx={{ backgroundColor: theme.palette.primary.main }}
           >
