@@ -1,4 +1,11 @@
-import { Box, Button, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  Typography,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import {
   Title,
   ListViewHeader,
@@ -10,7 +17,7 @@ import {
   DialogButton,
 } from "@components";
 import { theme } from "@libs/theme";
-import { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { type CategoryModel } from "@features/category/models";
 import { useCategoryList } from "@features/category/hooks";
 import AddIcon from "@mui/icons-material/Add";
@@ -19,6 +26,7 @@ import {
   CategoryEditDialog,
 } from "@features/category/components";
 import { format } from "@libs/date";
+import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 
 export function CategoryScreen() {
   // 1. destructure props
@@ -26,6 +34,7 @@ export function CategoryScreen() {
   // 3. state hooks
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   // 4. query hooks
   const { categories, isLoading } = useCategoryList({ page, limit });
@@ -47,58 +56,50 @@ export function CategoryScreen() {
       {
         field: "action",
         headerName: "동작",
-        width: 200,
+        width: 80,
         renderCell: ({ row }) => {
           return (
-            <Box
-              sx={{
-                display: "flex",
-                width: "100%",
-                height: "100%",
-                gap: 2,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <DialogButton
-                render={({ onOpen }) => (
-                  <Button
-                    onClick={onOpen}
-                    variant="outlined"
-                    size="small"
-                    sx={{
-                      backgroundColor: theme.palette.primary.main,
-                      color: theme.palette.background.paper,
-                    }}
-                  >
-                    수정
-                  </Button>
-                )}
+            <React.Fragment>
+              <IconButton onClick={handleOpenMenu}>
+                <MoreVertRoundedIcon />
+              </IconButton>
+              <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleCloseMenu}
               >
-                {({ onClose, onKeyDown }) => (
-                  <CategoryEditDialog
-                    category={row}
-                    onClose={onClose}
-                    onKeyDown={onKeyDown}
-                  />
-                )}
-              </DialogButton>
-              <Button
-                variant="outlined"
-                size="small"
-                sx={{
-                  border: `1px solid ${theme.palette.error.main}`,
-                  color: theme.palette.error.main,
-                }}
-              >
-                삭제
-              </Button>
-            </Box>
+                <DialogButton
+                  render={({ onOpen }) => (
+                    <MenuItem onClick={onOpen}>수정</MenuItem>
+                  )}
+                >
+                  {({ onClose, onKeyDown }) => (
+                    <CategoryEditDialog
+                      category={row}
+                      onClose={() => {
+                        onClose();
+                        handleCloseMenu();
+                      }}
+                      onKeyDown={onKeyDown}
+                    />
+                  )}
+                </DialogButton>
+                <MenuItem onClick={handleCloseMenu}>삭제</MenuItem>
+              </Menu>
+            </React.Fragment>
           );
         },
       },
     ];
-  }, []);
+  }, [anchorEl]);
+
+  const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
 
   // 7. effect hooks
   // 8. handlers
