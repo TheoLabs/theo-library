@@ -12,7 +12,6 @@ import {
   Pagination,
   CustomDataGrid,
   type GridColDef,
-  FilterButton,
   ExportButton,
   DialogButton,
 } from "@components";
@@ -156,7 +155,6 @@ export function CategoryScreen() {
             onSearch={(search) => {
               console.log(search);
             }}
-            filterButton={<FilterButton />}
             exportButton={<ExportButton />}
           />
         </Box>
