@@ -1,6 +1,7 @@
 export const SeriesStatus = {
   PENDING: "pending",
-  PUBLISHED: "published",
+  ONGOING: "ongoing",
+  COMPLETED: "completed",
   SUSPENDED: "suspended",
 } as const;
 export type SeriesStatus = (typeof SeriesStatus)[keyof typeof SeriesStatus];

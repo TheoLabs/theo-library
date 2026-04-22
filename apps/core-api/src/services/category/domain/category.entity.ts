@@ -1,5 +1,6 @@
 import { DddAggregate } from '@libs/ddd';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Series } from '@services/series/domain/series.entity';
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 type Ctor = {
   name: string;
@@ -12,6 +13,9 @@ export class Category extends DddAggregate {
 
   @Column({ unique: true, comment: '카테고리 이름' })
   name: string;
+
+  @ManyToMany(() => Series, (series) => series.categories)
+  seriesList: Series[];
 
   private constructor(args: Ctor) {
     super();
