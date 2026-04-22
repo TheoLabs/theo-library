@@ -54,4 +54,16 @@ export class AdminSeriesService extends DddService {
 
     return { items: seriesList, total };
   }
+
+  async retrieve({ id }: { id: number }) {
+    const [series] = await this.seriesRepository.find({ id });
+
+    if (!series) {
+      throw new BadRequestException(`${id}은 존재하지 않는 시리즈입니다.`, {
+        cause: `${id}은 존재하지 않는 시리즈입니다.`,
+      });
+    }
+
+    return series;
+  }
 }

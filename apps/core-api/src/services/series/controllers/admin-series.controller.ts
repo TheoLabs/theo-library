@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Param, ParseIntPipe } from '@nestjs/common';
 import { AdminSeriesService } from '../applications/admin-series.service';
 import { ApiTags } from '@nestjs/swagger';
 
@@ -29,6 +29,20 @@ export class AdminSeriesController {
     // 2. Get context
     // 3. Get result
     const data = await this.adminSeriesService.list();
+
+    // 4. Send response
+    return { data };
+  }
+
+  /**
+   * 시리즈 상세 조회
+   */
+  @Get(':id')
+  async retrieve(@Param('id', ParseIntPipe) id: number) {
+    // 1. Destructure body, params, query
+    // 2. Get context
+    // 3. Get result
+    const data = await this.adminSeriesService.retrieve({ id });
 
     // 4. Send response
     return { data };
