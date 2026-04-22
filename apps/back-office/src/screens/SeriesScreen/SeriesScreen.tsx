@@ -2,7 +2,10 @@ import { Typography, Box, Button, Divider } from "@mui/material";
 import { Title, DialogButton } from "@components";
 import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
-import { SeriesSearchSection } from "@features/series/components";
+import {
+  SeriesSearchSection,
+  SeriesDetailSection,
+} from "@features/series/components";
 
 export function SeriesScreen() {
   // 1. destructure props
@@ -49,8 +52,8 @@ export function SeriesScreen() {
         />
         <Divider orientation="vertical" />
 
-        {/* {selectedClientId ? (
-          <ClientDetailSection clientId={selectedClientId} />
+        {selectedSeriesId ? (
+          <SeriesDetailSection seriesId={selectedSeriesId} />
         ) : (
           <Box
             sx={{
@@ -62,7 +65,7 @@ export function SeriesScreen() {
           >
             <Typography variant="h6">도서관을 선택해주세요.</Typography>
           </Box>
-        )} */}
+        )}
       </Box>
     </Box>
   );

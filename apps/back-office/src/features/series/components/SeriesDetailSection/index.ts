@@ -1,2 +1,1 @@
 export * from "./SeriesDetailSection";
-export * from "./SeriesSearchSection";

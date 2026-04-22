@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { contractRepository } from "../api";
 import type { SeriesListParams } from "../models";
 
@@ -12,7 +12,9 @@ const seriesKeys = {
 };
 
 // 2. useQuery
-export function useInfiniteSeriesList(params: Omit<SeriesListParams, "page">) {
+export const useInfiniteSeriesList = (
+  params: Omit<SeriesListParams, "page">,
+) => {
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
       queryKey: seriesKeys.list(params),
@@ -43,7 +45,16 @@ export function useInfiniteSeriesList(params: Omit<SeriesListParams, "page">) {
     hasNextPage,
     isFetchingNextPage,
   };
-}
+};
 
+export const useSeriesDetail = (id: number) => {
+  const { data: series, isLoading } = useQuery({
+    queryKey: seriesKeys.detail(id),
+    queryFn: () => contractRepository.retrieve(id),
+    enabled: !!id,
+  });
+
+  return { series, isLoading };
+};
 // 3. useMutation
 // 4. Custom hooks

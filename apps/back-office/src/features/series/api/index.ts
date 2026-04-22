@@ -1,6 +1,5 @@
 import { httpClient } from "@libs/http-client";
 import type { SeriesModel, SeriesListParams } from "../models";
-
 import type { IPaginatedData } from "@theo-library/shared";
 
 export const contractRepository = {
@@ -8,5 +7,9 @@ export const contractRepository = {
     return httpClient.get<IPaginatedData<SeriesModel>>(`/series`, {
       params: { limit, page, order, sort, ...filter },
     });
+  },
+
+  async retrieve(id: number) {
+    return httpClient.get<SeriesModel>(`/series/${id}`);
   },
 };
