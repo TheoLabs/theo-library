@@ -4,6 +4,7 @@ import {
   MemberScreen,
   ClientScreen,
   CategoryScreen,
+  SeriesScreen,
 } from "@screens";
 import { BaseLayOut } from "@components";
 import { router } from "./const";
@@ -29,7 +30,7 @@ export function AppRouter() {
 
           <Route path={router.CONTENT.INDEX}>
             <Route index element={<Navigate to={router.CONTENT.SERIES} />} />
-            <Route path={router.CONTENT.SERIES} element={<div>hi</div>} />
+            <Route path={router.CONTENT.SERIES} element={<SeriesScreen />} />
             <Route
               path={router.CONTENT.CATEGORY}
               element={<CategoryScreen />}

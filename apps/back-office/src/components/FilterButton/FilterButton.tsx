@@ -2,8 +2,10 @@ import { Button, Typography } from "@mui/material";
 import { theme } from "@libs/theme";
 import FilterListIcon from "@mui/icons-material/FilterList";
 
-export function FilterButton() {
+export function FilterButton(props: { onlyIcon?: boolean }) {
   // 1. destructure props
+  const { onlyIcon } = props;
+
   // 2. lib hooks
   // 3. state hooks
   // 4. query hooks
@@ -17,25 +19,27 @@ export function FilterButton() {
       sx={{
         background: theme.palette.background.paper,
         border: `1px solid ${theme.palette.grey[100]}`,
-        padding: "8px 16px",
+        padding: onlyIcon ? "8px" : "8px 16px",
       }}
     >
       <FilterListIcon
         fontSize="small"
         sx={{
           color: theme.palette.primary.light,
-          marginRight: "8px",
+          marginRight: onlyIcon ? 0 : "8px",
         }}
       />
-      <Typography
-        sx={{
-          fontSize: "14px",
-          fontWeight: 600,
-          color: theme.palette.primary.light,
-        }}
-      >
-        필터
-      </Typography>
+      {!onlyIcon && (
+        <Typography
+          sx={{
+            fontSize: "14px",
+            fontWeight: 600,
+            color: theme.palette.primary.light,
+          }}
+        >
+          필터
+        </Typography>
+      )}
     </Button>
   );
 }

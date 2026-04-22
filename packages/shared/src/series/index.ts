@@ -1,3 +1,5 @@
+import { CalendarDate } from "../common.js";
+
 export const SeriesStatus = {
   PENDING: "pending",
   ONGOING: "ongoing",
@@ -5,3 +7,19 @@ export const SeriesStatus = {
   SUSPENDED: "suspended",
 } as const;
 export type SeriesStatus = (typeof SeriesStatus)[keyof typeof SeriesStatus];
+
+export interface ISeriesResponse {
+  id: number;
+  thumbnailImageUrl: string;
+  title: string;
+  summary: string;
+  author: string;
+  illustrator: string;
+  publisher: string;
+  publishedOn: CalendarDate | null;
+  publicationCycleDay: number;
+  status: SeriesStatus;
+  totalEpisodeCount: number;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+}
