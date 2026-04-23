@@ -5,7 +5,7 @@ import { theme } from "@libs/theme";
 import { useAdminList, useAdminStatusLabel } from "../../hooks";
 import { AdminRoleType } from "@theo-library/shared";
 
-export function AccountCard(props: { clientId: number }) {
+export function AdminCard(props: { clientId: number }) {
   // 1. destructure props
   const { clientId } = props;
 

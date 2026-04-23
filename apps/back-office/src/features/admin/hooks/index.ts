@@ -1,7 +1,7 @@
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { adminRepository } from "../api";
 import type { AdminListParams } from "../models";
-import { AdminStatusType } from "@theo-library/shared";
+import { AdminStatusType, AdminRoleType } from "@theo-library/shared";
 import { useCallback } from "react";
 import { theme } from "@libs/theme";
 
@@ -37,6 +37,17 @@ export const useAdminStatusLabel = () => {
         return { label: "활성", color: theme.palette.chip.success };
       case AdminStatusType.INACTIVE:
         return { label: "비활성", color: theme.palette.chip.error };
+    }
+  }, []);
+};
+
+export const useAdminRoleLabel = () => {
+  return useCallback((role: AdminRoleType) => {
+    switch (role) {
+      case AdminRoleType.SUPER:
+        return { label: "사내 직원", color: theme.palette.chip.info };
+      case AdminRoleType.LIBRARY:
+        return { label: "도서관", color: theme.palette.chip.success };
     }
   }, []);
 };

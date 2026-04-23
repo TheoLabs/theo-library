@@ -11,21 +11,30 @@ import {
 import { theme } from "@libs/theme";
 import { useState, useMemo } from "react";
 import EditIcon from "@mui/icons-material/Edit";
-import { useAdminList } from "@features/admin/hooks";
+import {
+  useAdminList,
+  useAdminStatusLabel,
+  useAdminRoleLabel,
+} from "@features/admin/hooks";
+import type { AdminModel } from "@features/admin/models";
 
 export function MemberScreen() {
   // 1. destructure props
   // 2. lib hooks
+  const getAdminStatusLabel = useAdminStatusLabel();
+  const getAdminRoleLabel = useAdminRoleLabel();
+
   // 3. state hooks
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
+  const [filter, setFilter] = useState({ searchKey: "name", searchValue: "" });
 
   // 4. query hooks
-  const { admins, isLoading } = useAdminList({ page, limit });
+  const { admins, isLoading } = useAdminList({ page, limit, filter });
 
   // 5. form hooks
   // 6. calculate values
-  const columns = useMemo<GridColDef[]>(
+  const columns = useMemo<GridColDef<AdminModel>[]>(
     () => [
       {
         field: "name",
@@ -41,11 +50,43 @@ export function MemberScreen() {
         field: "role",
         headerName: "역할",
         flex: 1,
+        renderCell: ({ value }) => {
+          const role = getAdminRoleLabel(value);
+
+          return (
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                color: role.color,
+                fontWeight: "bold",
+              }}
+            >
+              {role.label}
+            </Box>
+          );
+        },
       },
       {
         field: "status",
         headerName: "상태",
         flex: 1,
+        renderCell: ({ value }) => {
+          const status = getAdminStatusLabel(value);
+
+          return (
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                color: status.color,
+                fontWeight: "bold",
+              }}
+            >
+              ● {status.label}
+            </Box>
+          );
+        },
       },
       {
         field: "actions",
@@ -67,7 +108,7 @@ export function MemberScreen() {
         ),
       },
     ],
-    [],
+    [getAdminStatusLabel, getAdminRoleLabel],
   );
   // 7. effect hooks
   // 8. handlers
@@ -109,11 +150,12 @@ export function MemberScreen() {
             title="계정 목록"
             summary="사내 및 도서관 계정 전체 목록입니다."
             searchItems={[
-              { searchKey: "contractType", label: "계약 유형" },
-              { searchKey: "status", label: "상태" },
+              { searchKey: "name", label: "이름" },
+              { searchKey: "email", label: "이메일" },
             ]}
             onSearch={(search) => {
-              console.log(search);
+              setFilter(search);
+              setPage(1);
             }}
             filterButton={<FilterButton />}
             exportButton={<ExportButton />}

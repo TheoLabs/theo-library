@@ -5,7 +5,7 @@ import React from "react";
 import BusinessIcon from "@mui/icons-material/Business";
 import { theme } from "@libs/theme";
 import { ContractCard } from "@features/contract/components";
-import { AccountCard } from "@features/admin/components";
+import { AdminCard } from "@features/admin/components";
 
 export function ClientDetailSection(props: { clientId: number }) {
   // 1. destructure props
@@ -89,7 +89,7 @@ export function ClientDetailSection(props: { clientId: number }) {
               <ContractCard clientId={clientId} />
 
               {/* 계정 정보 */}
-              <AccountCard clientId={clientId} />
+              <AdminCard clientId={clientId} />
             </Box>
           </Box>
         </React.Fragment>
