@@ -2,7 +2,7 @@ import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { adminRepository } from "../api";
 import type { AdminListParams } from "../models";
 import { AdminStatusType, AdminRoleType } from "@theo-library/shared";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { theme } from "@libs/theme";
 
 // 1. query keys
@@ -50,4 +50,26 @@ export const useAdminRoleLabel = () => {
         return { label: "도서관", color: theme.palette.chip.success };
     }
   }, []);
+};
+
+export const useAdminRoleOptions = () => {
+  const getRoleLabel = useAdminRoleLabel();
+
+  return useMemo(() => {
+    return Object.values(AdminRoleType).map((value) => ({
+      label: getRoleLabel(value).label,
+      value,
+    }));
+  }, [getRoleLabel]);
+};
+
+export const useAdminStatusOptions = () => {
+  const getStatusLabel = useAdminStatusLabel();
+
+  return useMemo(() => {
+    return Object.values(AdminStatusType).map((value) => ({
+      label: getStatusLabel(value).label,
+      value,
+    }));
+  }, [getStatusLabel]);
 };

@@ -2,20 +2,12 @@ import { Menu, Box, Typography } from "@mui/material";
 import { AdminRoleType, AdminStatusType } from "@theo-library/shared";
 import { FilterAction, FilterChipGroup } from "@components";
 import { useState } from "react";
+import {
+  useAdminRoleOptions,
+  useAdminStatusOptions,
+} from "@features/admin/hooks";
 
-// 임시 옵션 데이터 (실제 프로젝트 값으로 변경해주세요)
-const ROLE_OPTIONS = [
-  { label: "사내 직원", value: AdminRoleType.SUPER },
-  { label: "도서관", value: AdminRoleType.LIBRARY },
-];
-
-const STATUS_OPTIONS = [
-  { label: "대기", value: AdminStatusType.PENDING },
-  { label: "활성", value: AdminStatusType.ACTIVE },
-  { label: "비활성", value: AdminStatusType.INACTIVE },
-];
-
-export function AdminRoleFilterMenu(props: {
+export function AdminFilterMenu(props: {
   onClose: () => void;
   anchorEl: HTMLElement | null;
   initialValues: { roles: AdminRoleType[]; statuses: AdminStatusType[] };
@@ -28,6 +20,9 @@ export function AdminRoleFilterMenu(props: {
   const { onClose, anchorEl, initialValues, onChange } = props;
 
   // 2. lib hooks
+  const roleOptions = useAdminRoleOptions();
+  const statusOptions = useAdminStatusOptions();
+
   // 3. state hooks
   const [selectedRoles, setSelectedRoles] = useState<AdminRoleType[]>(
     initialValues.roles,
@@ -74,7 +69,7 @@ export function AdminRoleFilterMenu(props: {
 
           <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
             <FilterChipGroup
-              options={ROLE_OPTIONS}
+              options={roleOptions}
               selectedValues={selectedRoles}
               onChange={setSelectedRoles}
             />
@@ -91,7 +86,7 @@ export function AdminRoleFilterMenu(props: {
 
           <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
             <FilterChipGroup
-              options={STATUS_OPTIONS}
+              options={statusOptions}
               selectedValues={selectedStatuses}
               onChange={setSelectedStatuses}
             />

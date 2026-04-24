@@ -17,27 +17,20 @@ import {
   useAdminList,
   useAdminStatusLabel,
   useAdminRoleLabel,
+  useAdminRoleOptions,
+  useAdminStatusOptions,
 } from "@features/admin/hooks";
 import type { AdminModel } from "@features/admin/models";
-import { AdminRoleFilterMenu } from "@features/admin/components";
+import { AdminFilterMenu } from "@features/admin/components";
 import { AdminRoleType, AdminStatusType } from "@theo-library/shared";
-
-const ROLE_OPTIONS = [
-  { label: "사내 직원", value: AdminRoleType.SUPER },
-  { label: "도서관", value: AdminRoleType.LIBRARY },
-];
-
-const STATUS_OPTIONS = [
-  { label: "대기", value: AdminStatusType.PENDING },
-  { label: "활성", value: AdminStatusType.ACTIVE },
-  { label: "비활성", value: AdminStatusType.INACTIVE },
-];
 
 export function MemberScreen() {
   // 1. destructure props
   // 2. lib hooks
   const getAdminStatusLabel = useAdminStatusLabel();
   const getAdminRoleLabel = useAdminRoleLabel();
+  const roleOptions = useAdminRoleOptions();
+  const statusOptions = useAdminStatusOptions();
 
   // 3. state hooks
   const [page, setPage] = useState(1);
@@ -182,7 +175,7 @@ export function MemberScreen() {
                 render={({ onOpen }) => <FilterButton onClick={onOpen} />}
               >
                 {({ onClose, anchorEl }) => (
-                  <AdminRoleFilterMenu
+                  <AdminFilterMenu
                     onClose={onClose}
                     anchorEl={anchorEl}
                     initialValues={filter}
@@ -198,7 +191,7 @@ export function MemberScreen() {
             appliedChips={
               <Box sx={{ display: "flex", gap: 8 }}>
                 <FilterChipGroup
-                  options={ROLE_OPTIONS}
+                  options={roleOptions}
                   selectedValues={filter.roles}
                   onChange={(values) => {
                     setFilter((prev) => ({ ...prev, roles: values }));
@@ -208,7 +201,7 @@ export function MemberScreen() {
                   category="역할"
                 />
                 <FilterChipGroup
-                  options={STATUS_OPTIONS}
+                  options={statusOptions}
                   selectedValues={filter.statuses}
                   onChange={(values) => {
                     setFilter((prev) => ({ ...prev, statuses: values }));

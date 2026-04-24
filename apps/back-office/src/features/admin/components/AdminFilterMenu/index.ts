@@ -1,2 +1,1 @@
-export * from "./AdminCard";
 export * from "./AdminFilterMenu";
