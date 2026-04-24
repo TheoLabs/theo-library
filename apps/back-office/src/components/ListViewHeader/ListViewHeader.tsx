@@ -197,7 +197,7 @@ export function ListViewHeader(props: {
         )}
         <Box sx={{ display: "flex", gap: 4 }}>{exportButton}</Box>
       </Box>
-      <Box sx={{ display: "flex" }}>{appliedChips}</Box>
+      {appliedChips}
     </Box>
   );
 }

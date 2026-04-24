@@ -47,6 +47,7 @@ export function MemberScreen() {
 
   // 5. form hooks
   // 6. calculate values
+  const hasFilter = filter.roles.length > 0 || filter.statuses.length > 0;
   const columns = useMemo<GridColDef<AdminModel>[]>(
     () => [
       {
@@ -123,6 +124,7 @@ export function MemberScreen() {
     ],
     [getAdminStatusLabel, getAdminRoleLabel],
   );
+
   // 7. effect hooks
   // 8. handlers
   // 9. render
@@ -189,28 +191,30 @@ export function MemberScreen() {
             }
             exportButton={<ExportButton />}
             appliedChips={
-              <Box sx={{ display: "flex", gap: 8 }}>
-                <FilterChipGroup
-                  options={roleOptions}
-                  selectedValues={filter.roles}
-                  onChange={(values) => {
-                    setFilter((prev) => ({ ...prev, roles: values }));
-                    setPage(1);
-                  }}
-                  viewMode
-                  category="역할"
-                />
-                <FilterChipGroup
-                  options={statusOptions}
-                  selectedValues={filter.statuses}
-                  onChange={(values) => {
-                    setFilter((prev) => ({ ...prev, statuses: values }));
-                    setPage(1);
-                  }}
-                  viewMode
-                  category="상태"
-                />
-              </Box>
+              hasFilter && (
+                <Box sx={{ display: "flex", gap: 8 }}>
+                  <FilterChipGroup
+                    options={roleOptions}
+                    selectedValues={filter.roles}
+                    onChange={(values) => {
+                      setFilter((prev) => ({ ...prev, roles: values }));
+                      setPage(1);
+                    }}
+                    viewMode
+                    category="역할"
+                  />
+                  <FilterChipGroup
+                    options={statusOptions}
+                    selectedValues={filter.statuses}
+                    onChange={(values) => {
+                      setFilter((prev) => ({ ...prev, statuses: values }));
+                      setPage(1);
+                    }}
+                    viewMode
+                    category="상태"
+                  />
+                </Box>
+              )
             }
           />
         </Box>
