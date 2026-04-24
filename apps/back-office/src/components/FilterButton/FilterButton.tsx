@@ -2,9 +2,12 @@ import { Button, Typography } from "@mui/material";
 import { theme } from "@libs/theme";
 import FilterListIcon from "@mui/icons-material/FilterList";
 
-export function FilterButton(props: { onlyIcon?: boolean }) {
+export function FilterButton(props: {
+  onlyIcon?: boolean;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+}) {
   // 1. destructure props
-  const { onlyIcon } = props;
+  const { onlyIcon, onClick } = props;
 
   // 2. lib hooks
   // 3. state hooks
@@ -16,6 +19,7 @@ export function FilterButton(props: { onlyIcon?: boolean }) {
   // 9. render
   return (
     <Button
+      onClick={onClick}
       sx={{
         background: theme.palette.background.paper,
         border: `1px solid ${theme.palette.grey[100]}`,

@@ -108,5 +108,44 @@ export const theme = createTheme({
         },
       },
     },
+    MuiMenu: {
+      defaultProps: {
+        elevation: 0,
+      },
+      styleOverrides: {
+        paper: {
+          marginTop: "6px",
+          borderRadius: "12px",
+          border: "1px solid rgba(25, 28, 30, 0.08)",
+          boxShadow: "0px 12px 32px rgba(25, 28, 30, 0.06)",
+        },
+        list: {
+          padding: "4px 0",
+        },
+      },
+    },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          fontSize: "14px",
+          color: "#4D5156",
+          borderRadius: "6px",
+          margin: "2px 8px",
+          padding: "8px 12px",
+          transition: "all 0.15s ease",
+          "&:hover": {
+            backgroundColor: "#F4F6F9",
+          },
+          "&.Mui-selected": {
+            backgroundColor: "transparent",
+            color: "#1B258F",
+            fontWeight: 700,
+            "&:hover": {
+              backgroundColor: "#F4F6F9",
+            },
+          },
+        },
+      },
+    },
   },
 });

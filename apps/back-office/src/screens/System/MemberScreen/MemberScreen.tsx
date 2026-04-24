@@ -7,6 +7,7 @@ import {
   CustomDataGrid,
   type GridColDef,
   Pagination,
+  MenuButton,
 } from "@components";
 import { theme } from "@libs/theme";
 import { useState, useMemo } from "react";
@@ -17,6 +18,8 @@ import {
   useAdminRoleLabel,
 } from "@features/admin/hooks";
 import type { AdminModel } from "@features/admin/models";
+import { AdminRoleFilterMenu } from "@features/admin/components";
+import type { AdminRoleType, AdminStatusType } from "@theo-library/shared";
 
 export function MemberScreen() {
   // 1. destructure props
@@ -27,7 +30,12 @@ export function MemberScreen() {
   // 3. state hooks
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  const [filter, setFilter] = useState({ searchKey: "name", searchValue: "" });
+  const [filter, setFilter] = useState<{
+    searchKey: string;
+    searchValue: string;
+    roles: AdminRoleType[];
+    statuses: AdminStatusType[];
+  }>({ searchKey: "name", searchValue: "", roles: [], statuses: [] });
 
   // 4. query hooks
   const { admins, isLoading } = useAdminList({ page, limit, filter });
@@ -154,10 +162,26 @@ export function MemberScreen() {
               { searchKey: "email", label: "이메일" },
             ]}
             onSearch={(search) => {
-              setFilter(search);
+              setFilter((prev) => ({ ...prev, ...search }));
               setPage(1);
             }}
-            filterButton={<FilterButton />}
+            filterButton={
+              <MenuButton
+                render={({ onOpen }) => <FilterButton onClick={onOpen} />}
+              >
+                {({ onClose, anchorEl }) => (
+                  <AdminRoleFilterMenu
+                    onClose={onClose}
+                    anchorEl={anchorEl}
+                    initialValues={filter}
+                    onChange={(values) => {
+                      setFilter(values);
+                      setPage(1);
+                    }}
+                  />
+                )}
+              </MenuButton>
+            }
             exportButton={<ExportButton />}
           />
         </Box>
