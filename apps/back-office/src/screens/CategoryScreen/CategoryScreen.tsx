@@ -24,7 +24,6 @@ import {
   CategoryAddDialog,
   CategoryEditDialog,
 } from "@features/category/components";
-import { format } from "@libs/date";
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 
 export function CategoryScreen() {
@@ -42,15 +41,14 @@ export function CategoryScreen() {
   const columns = useMemo<GridColDef<CategoryModel>[]>(() => {
     return [
       {
-        field: "name",
-        headerName: "카테고리명",
-        width: 200,
+        field: "id",
+        headerName: "ID",
+        width: 80,
       },
       {
-        field: "createdAt",
-        headerName: "생성일",
+        field: "name",
+        headerName: "카테고리명",
         flex: 1,
-        valueGetter: (value) => format(value, "YYYY-MM-DD HH:mm:ss"),
       },
       {
         field: "action",
