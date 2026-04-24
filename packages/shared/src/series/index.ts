@@ -23,3 +23,14 @@ export interface ISeriesResponse {
   createdAt: Date | string;
   updatedAt: Date | string;
 }
+
+export interface ISeriesCreateBodyDto {
+  thumbnailImageUrl: string;
+  title: string;
+  summary: string;
+  author: string;
+  illustrator: string;
+  publisher: string;
+  publicationCycleDay: number;
+  categoryIds: number[];
+}

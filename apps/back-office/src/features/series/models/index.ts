@@ -2,6 +2,7 @@ import type {
   CalendarDate,
   SeriesStatus,
   IPaginationParams,
+  ISeriesCreateBodyDto,
 } from "@theo-library/shared";
 
 export interface SeriesModel {
@@ -26,3 +27,5 @@ export interface SeriesListParams extends IPaginationParams {
     searchValue?: string;
   };
 }
+
+export interface SeriesCreateBody extends ISeriesCreateBodyDto {}

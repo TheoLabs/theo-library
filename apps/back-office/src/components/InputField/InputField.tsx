@@ -23,6 +23,8 @@ export function InputField<T extends FieldValues>(props: {
   disabled?: boolean;
   control: Control<T>;
   sx?: SxProps<Theme>;
+  multiline?: boolean;
+  type?: "text" | "number";
 }) {
   // 1. destructure props
   const {
@@ -33,6 +35,8 @@ export function InputField<T extends FieldValues>(props: {
     required = false,
     sx,
     disabled,
+    multiline = false,
+    type = "text",
   } = props;
 
   // 2. lib hooks
@@ -50,7 +54,10 @@ export function InputField<T extends FieldValues>(props: {
       <Controller
         name={name}
         control={control}
-        render={({ field, fieldState: { error } }) => (
+        render={({
+          field: { onChange, value, ...fieldRest },
+          fieldState: { error },
+        }) => (
           <React.Fragment>
             <Box
               sx={{
@@ -87,11 +94,24 @@ export function InputField<T extends FieldValues>(props: {
               )}
             </Box>
             <TextField
-              {...field}
+              {...fieldRest}
+              value={value ?? ""}
+              onChange={(e) => {
+                const val = e.target.value;
+                if (type === "number") {
+                  const num = val === "" ? null : Number(val);
+                  onChange(num);
+                } else {
+                  onChange(val);
+                }
+              }}
               size="small"
               placeholder={placeholder}
               error={!!error && !disabled}
               disabled={disabled}
+              multiline={multiline}
+              rows={multiline ? 4 : undefined}
+              type={type}
               sx={{
                 "& .MuiOutlinedInput-root": {
                   backgroundColor: disabled ? "#F2F4F6" : "#EBEFF5",

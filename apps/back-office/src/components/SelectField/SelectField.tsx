@@ -33,12 +33,11 @@ export interface SelectFieldProps<T extends FieldValues> extends Omit<
   control: Control<T>;
   options: SelectOption[];
   placeholder?: string;
-  disabled?: boolean; // ✅ disabled 속성 명시
+  disabled?: boolean;
   sx?: SxProps<Theme>;
 }
 
 export function SelectField<T extends FieldValues>(props: SelectFieldProps<T>) {
-  // 1. destructure props
   const {
     label,
     name,
@@ -46,12 +45,11 @@ export function SelectField<T extends FieldValues>(props: SelectFieldProps<T>) {
     options,
     placeholder,
     required = false,
-    disabled = false, // ✅ 기본값 설정
+    disabled = false,
     sx,
     ...rest
   } = props;
 
-  // 9. render
   return (
     <Box
       sx={{ display: "flex", width: "100%", flexDirection: "column", gap: 1 }}
@@ -61,7 +59,6 @@ export function SelectField<T extends FieldValues>(props: SelectFieldProps<T>) {
         control={control}
         render={({ field: { onChange, value }, fieldState: { error } }) => (
           <React.Fragment>
-            {/* 라벨 및 에러 메시지 영역 */}
             <Box
               sx={{
                 display: "flex",
@@ -75,7 +72,6 @@ export function SelectField<T extends FieldValues>(props: SelectFieldProps<T>) {
                   marginLeft: "4px",
                   fontWeight: "bold",
                   fontSize: "14px",
-                  // ✅ 비활성화 시 라벨 색상 톤다운
                   color: disabled ? "#A0A5AB" : theme.palette.primary.light,
                   "& .MuiFormLabel-asterisk": {
                     color: disabled ? "#A0A5AB" : theme.palette.error.main,
@@ -85,7 +81,6 @@ export function SelectField<T extends FieldValues>(props: SelectFieldProps<T>) {
                 {label}
               </FormLabel>
 
-              {/* ✅ 비활성화 상태일 때는 에러 메시지 숨김 */}
               {error && !disabled && (
                 <Typography
                   sx={{
@@ -99,15 +94,38 @@ export function SelectField<T extends FieldValues>(props: SelectFieldProps<T>) {
               )}
             </Box>
 
-            {/* Select 컴포넌트 영역 */}
             <Select
-              value={value ?? ""}
+              // ✅ multiple일 때는 기본값을 []로, 아닐 때는 ""로 설정
+              value={rest.multiple ? value || [] : (value ?? "")}
               onChange={onChange}
               displayEmpty={!!placeholder}
               size="small"
               IconComponent={ExpandMoreIcon}
               error={!!error && !disabled}
-              disabled={disabled} // ✅ Select에 disabled 전달
+              disabled={disabled}
+              // ✅ multiple 선택 시 ID 대신 Label을 쉼표로 연결해서 보여주도록 처리
+              renderValue={
+                rest.multiple
+                  ? (selected) => {
+                      if ((selected as any[]).length === 0 && placeholder) {
+                        return (
+                          <Typography
+                            sx={{ color: "#8B95A1", fontSize: "16px" }}
+                          >
+                            {placeholder}
+                          </Typography>
+                        );
+                      }
+                      return (selected as any[])
+                        .map(
+                          (val) =>
+                            options.find((opt) => opt.value === val)?.label,
+                        )
+                        .filter(Boolean)
+                        .join(", ");
+                    }
+                  : undefined
+              }
               MenuProps={{
                 PaperProps: {
                   elevation: 0,
@@ -140,26 +158,20 @@ export function SelectField<T extends FieldValues>(props: SelectFieldProps<T>) {
                 },
               }}
               sx={{
-                // ✅ 비활성화 시 배경색을 약간 더 죽은 회색으로 변경
                 backgroundColor: disabled ? "#F2F4F6" : "#EBEFF5",
                 borderRadius: "12px",
                 transition: "all 0.2s ease-in-out",
-
                 "& .MuiOutlinedInput-notchedOutline": {
                   borderColor: "transparent",
                   borderWidth: "1px",
                 },
-
-                // ✅ 2. 호버(Hover) 상태 (disabled가 아닐 때만 적용)
                 "&:hover:not(.Mui-disabled) .MuiOutlinedInput-notchedOutline": {
                   borderColor: theme.palette.primary.light,
                 },
-
                 "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
                   borderColor: theme.palette.primary.main,
                   borderWidth: "1px",
                 },
-
                 "&.Mui-error .MuiOutlinedInput-notchedOutline": {
                   borderColor: theme.palette.error.main,
                   borderWidth: "1px",
@@ -168,34 +180,25 @@ export function SelectField<T extends FieldValues>(props: SelectFieldProps<T>) {
                   {
                     borderColor: theme.palette.error.dark,
                   },
-
-                // ✅ 비활성화 시 마우스 커서 전체 영역 변경
                 "&.Mui-disabled": {
                   cursor: "not-allowed",
                 },
-
-                // 텍스트 패딩 및 스타일
                 "& .MuiSelect-select": {
                   padding: "10px 14px",
-                  paddingRight: "36px !important", // 아이콘 공간 확보
+                  paddingRight: "36px !important",
                   fontSize: "16px",
                   color: "#4D5156",
                   fontWeight: 500,
-
-                  // ✅ 비활성화 시 텍스트 색상 및 커서
                   "&.Mui-disabled": {
                     color: "#A0A5AB",
-                    WebkitTextFillColor: "#A0A5AB", // Safari 호환성
+                    WebkitTextFillColor: "#A0A5AB",
                     cursor: "not-allowed",
                   },
                 },
-
-                // 우측 드롭다운 아이콘
                 "& .MuiSelect-icon": {
                   color: "#8B95A1",
                   right: "8px",
                   transition: "transform 0.2s ease",
-                  // ✅ 비활성화 시 아이콘 색상 톤다운
                   "&.Mui-disabled": {
                     color: "#A0A5AB",
                   },
@@ -207,8 +210,7 @@ export function SelectField<T extends FieldValues>(props: SelectFieldProps<T>) {
               }}
               {...rest}
             >
-              {/* placeholder 렌더링 로직 */}
-              {placeholder && (
+              {placeholder && !rest.multiple && (
                 <MenuItem value="" disabled sx={{ display: "none" }}>
                   <Typography
                     sx={{ color: "#8B95A1", fontSize: "14px", fontWeight: 500 }}

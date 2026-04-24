@@ -5,6 +5,7 @@ import { useState } from "react";
 import {
   SeriesSearchSection,
   SeriesDetailSection,
+  SeriesAddDialog,
 } from "@features/series/components";
 
 export function SeriesScreen() {
@@ -32,18 +33,18 @@ export function SeriesScreen() {
         }}
       >
         <Title title="시리즈 목록" />
-        {/* <DialogButton
+        <DialogButton
           render={({ onOpen }) => (
             <Button onClick={onOpen} sx={{ height: "48px" }}>
               <AddIcon sx={{ mr: 2 }} />
-              <Typography sx={{ fontWeight: 800 }}>도서관 등록</Typography>
+              <Typography sx={{ fontWeight: 800 }}>시리즈 등록</Typography>
             </Button>
           )}
         >
           {({ onClose, onKeyDown }) => (
-            <ClientAddDialog onClose={onClose} onKeyDown={onKeyDown} />
+            <SeriesAddDialog onClose={onClose} onKeyDown={onKeyDown} />
           )}
-        </DialogButton> */}
+        </DialogButton>
       </Box>
       <Box sx={{ display: "flex", gap: 4, height: "100%" }}>
         <SeriesSearchSection
