@@ -6,6 +6,7 @@ export * from "./DeleteConfirmDialog";
 export * from "./DialogButton";
 export * from "./DrawerButton";
 export * from "./ExportButton";
+export * from "./FileDropzoneField";
 export * from "./ListViewHeader";
 export * from "./MenuButton";
 export * from "./FilterAction";

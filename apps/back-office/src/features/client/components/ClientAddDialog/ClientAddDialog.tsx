@@ -12,7 +12,7 @@ import {
   Divider,
 } from "@mui/material";
 import { theme } from "@libs/theme";
-import { InputField } from "@components";
+import { InputField, FileDropzoneField } from "@components";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,6 +26,7 @@ const zodSchema = z.object({
   subDomain: z.string().min(1, "서브도메인을 입력해주세요."),
   contactNumber: z.string().min(1, "연락처를 입력해주세요."),
   address: z.string().min(1, "주소를 입력해주세요."),
+  logoImage: z.instanceof(File, { message: "로고 이미지를 업로드해주세요." }),
 });
 
 type ZodSchema = z.infer<typeof zodSchema>;
@@ -113,6 +114,14 @@ export function ClientAddDialog(props: {
       <DialogContent>
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           <Grid container spacing={6}>
+            <Grid size={12}>
+              <FileDropzoneField
+                label="도서관 로고 (선택)"
+                name="logoImage"
+                control={control}
+                accept="image/png, image/jpeg"
+              />
+            </Grid>
             <Grid size={6}>
               <InputField
                 label="도서관명"
