@@ -20,13 +20,14 @@ import { useEffect } from "react";
 import { formatPhoneNumber } from "@libs/utils";
 import { useClientCreate } from "../../hooks";
 import { useSnackbar } from "notistack";
+import { useFileUpload } from "@features/file/hooks";
 
 const zodSchema = z.object({
   name: z.string().min(1, "도서관명을 입력해주세요."),
   subDomain: z.string().min(1, "서브도메인을 입력해주세요."),
   contactNumber: z.string().min(1, "연락처를 입력해주세요."),
   address: z.string().min(1, "주소를 입력해주세요."),
-  logoImage: z.instanceof(File, { message: "로고 이미지를 업로드해주세요." }),
+  logoImageUrl: z.string().min(1, "로고 이미지를 업로드해주세요."),
 });
 
 type ZodSchema = z.infer<typeof zodSchema>;
@@ -40,6 +41,7 @@ export function ClientAddDialog(props: {
 
   // 2. lib hooks
   const { enqueueSnackbar } = useSnackbar();
+  const { mutateAsync: uploadFile } = useFileUpload();
 
   // 3. state hooks
   // 4. query hooks
@@ -117,9 +119,13 @@ export function ClientAddDialog(props: {
             <Grid size={12}>
               <FileDropzoneField
                 label="도서관 로고 (선택)"
-                name="logoImage"
+                name="logoImageUrl"
                 control={control}
                 accept="image/png, image/jpeg"
+                onUpload={async (file) => {
+                  const url = await uploadFile(file);
+                  return url;
+                }}
               />
             </Grid>
             <Grid size={6}>

@@ -4,6 +4,7 @@ import { AdminClientModule } from './client/admin-client.module';
 import { AdminContractModule } from './contract/admin-contract.module';
 import { AdminCategoryModule } from './category/admin-category.module';
 import { AdminSeriesModule } from '@services/series/admin-series.module';
+import { AdminFileModule } from './file/admin-file.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { AdminSeriesModule } from '@services/series/admin-series.module';
     AdminCategoryModule,
     AdminCategoryModule,
     AdminSeriesModule,
+    AdminFileModule,
   ],
   exports: [
     AdminMemberModule,
@@ -21,6 +23,7 @@ import { AdminSeriesModule } from '@services/series/admin-series.module';
     AdminCategoryModule,
     AdminCategoryModule,
     AdminSeriesModule,
+    AdminFileModule,
   ],
 })
 export class AdminModule {}

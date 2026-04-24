@@ -35,8 +35,10 @@ export class S3Service implements OnModuleInit {
     }
   }
 
-  async upload(file: Express.Multer.File): Promise<{ key: string; url: string }> {
-    const key = `${uuid()}-${file.originalname}`;
+  async upload(file: Express.Multer.File) {
+    console.log(file);
+    const filename = file.originalname;
+    const key = `${uuid()}-${filename}`;
 
     await this.s3.send(
       new PutObjectCommand({
@@ -51,6 +53,6 @@ export class S3Service implements OnModuleInit {
       ? `http://localhost:4566/${this.bucket}/${key}`
       : `https://${this.bucket}.s3.amazonaws.com/${key}`;
 
-    return { key, url };
+    return { key, url, filename };
   }
 }
