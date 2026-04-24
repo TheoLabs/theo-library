@@ -1,4 +1,9 @@
-import { useQuery, keepPreviousData } from "@tanstack/react-query";
+import {
+  useQuery,
+  keepPreviousData,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { adminRepository } from "../api";
 import type { AdminListParams } from "../models";
 import { AdminStatusType, AdminRoleType } from "@theo-library/shared";
@@ -26,6 +31,17 @@ export const useAdminList = (params: AdminListParams) => {
 };
 
 // 3. mutations
+export const useAdminChangeStatus = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, status }: { id: number; status: AdminStatusType }) =>
+      adminRepository.changeStatus({ id, status }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: adminKeys.all });
+    },
+  });
+};
 
 // 4. custom hook
 export const useAdminStatusLabel = () => {

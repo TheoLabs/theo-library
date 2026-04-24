@@ -1,6 +1,6 @@
 import { httpClient } from "@libs/http-client";
 import type { AdminListParams, AdminModel } from "../models";
-import type { IPaginatedData } from "@theo-library/shared";
+import type { AdminStatusType, IPaginatedData } from "@theo-library/shared";
 
 export const adminRepository = {
   async list({ page, limit, sort, order, filter }: AdminListParams) {
@@ -13,5 +13,9 @@ export const adminRepository = {
         ...filter,
       },
     });
+  },
+
+  async changeStatus({ id, status }: { id: number; status: AdminStatusType }) {
+    return httpClient.put(`/members/${id}/status`, { status });
   },
 };

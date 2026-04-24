@@ -20,11 +20,20 @@ export function InputField<T extends FieldValues>(props: {
   required?: boolean;
   placeholder?: string;
   name: Path<T>;
+  disabled?: boolean;
   control: Control<T>;
   sx?: SxProps<Theme>;
 }) {
   // 1. destructure props
-  const { label, name, control, placeholder, required = false, sx } = props;
+  const {
+    label,
+    name,
+    control,
+    placeholder,
+    required = false,
+    sx,
+    disabled,
+  } = props;
 
   // 2. lib hooks
   // 3. state hooks
@@ -56,16 +65,16 @@ export function InputField<T extends FieldValues>(props: {
                   marginLeft: "4px",
                   fontWeight: "bold",
                   fontSize: "14px",
-                  color: theme.palette.primary.light,
+                  color: disabled ? "#A0A5AB" : theme.palette.primary.light,
                   "& .MuiFormLabel-asterisk": {
-                    color: theme.palette.error.main,
+                    color: disabled ? "#A0A5AB" : theme.palette.error.main,
                   },
                 }}
               >
                 {label}
               </FormLabel>
 
-              {error && (
+              {error && !disabled && (
                 <Typography
                   sx={{
                     fontSize: "12px",
@@ -81,10 +90,11 @@ export function InputField<T extends FieldValues>(props: {
               {...field}
               size="small"
               placeholder={placeholder}
-              error={!!error}
+              error={!!error && !disabled}
+              disabled={disabled}
               sx={{
                 "& .MuiOutlinedInput-root": {
-                  backgroundColor: "#EBEFF5",
+                  backgroundColor: disabled ? "#F2F4F6" : "#EBEFF5",
                   borderRadius: "12px",
                   transition: "all 0.2s ease-in-out",
 
@@ -94,7 +104,7 @@ export function InputField<T extends FieldValues>(props: {
                   },
 
                   // 2. 호버(Hover) 상태
-                  "&:hover fieldset": {
+                  "&:hover:not(.Mui-disabled) fieldset": {
                     borderColor: theme.palette.primary.light,
                   },
 
@@ -110,6 +120,9 @@ export function InputField<T extends FieldValues>(props: {
                   "&.Mui-error:hover fieldset": {
                     borderColor: theme.palette.error.dark, // 에러 상태에서 호버 시 조금 더 진한 빨간색
                   },
+                  "&.Mui-disabled": {
+                    cursor: "not-allowed",
+                  },
                 },
 
                 // 텍스트 및 플레이스홀더 스타일링
@@ -122,6 +135,11 @@ export function InputField<T extends FieldValues>(props: {
                     color: "#8B95A1",
                     opacity: 1,
                     fontSize: "14px",
+                  },
+                  "&.Mui-disabled": {
+                    color: "#A0A5AB",
+                    WebkitTextFillColor: "#A0A5AB",
+                    cursor: "not-allowed",
                   },
                 },
 

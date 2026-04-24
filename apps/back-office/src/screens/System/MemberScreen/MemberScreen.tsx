@@ -22,7 +22,7 @@ import {
   useAdminStatusOptions,
 } from "@features/admin/hooks";
 import type { AdminModel } from "@features/admin/models";
-import { AdminFilterMenu } from "@features/admin/components";
+import { AdminEditDialog, AdminFilterMenu } from "@features/admin/components";
 import { AdminRoleType, AdminStatusType } from "@theo-library/shared";
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 
@@ -36,6 +36,7 @@ export function MemberScreen() {
 
   // 3. state hooks
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [selectedAdmin, setSelectedAdmin] = useState<AdminModel | null>(null);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [filter, setFilter] = useState<{
@@ -106,47 +107,26 @@ export function MemberScreen() {
         },
       },
       {
-        field: "action",
+        field: "id",
         headerName: "동작",
         width: 80,
         renderCell: ({ row }) => {
           return (
             <React.Fragment>
-              <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
+              <IconButton
+                onClick={(e) => {
+                  setAnchorEl(e.currentTarget);
+                  setSelectedAdmin(row);
+                }}
+              >
                 <MoreVertRoundedIcon />
               </IconButton>
-              <Menu
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={() => setAnchorEl(null)}
-              >
-                <DialogButton
-                  render={({ onOpen }) => (
-                    <MenuItem onClick={onOpen}>수정</MenuItem>
-                  )}
-                >
-                  {({ onClose, onKeyDown }) => <div>hi</div>}
-                </DialogButton>
-                <DialogButton
-                  render={({ onOpen }) => (
-                    <MenuItem onClick={onOpen}>삭제</MenuItem>
-                  )}
-                >
-                  {({ onClose, onKeyDown }) => (
-                    <DeleteConfirmDialog
-                      onClose={onClose}
-                      onKeyDown={onKeyDown}
-                      onDelete={() => {}}
-                    />
-                  )}
-                </DialogButton>
-              </Menu>
             </React.Fragment>
           );
         },
       },
     ],
-    [getAdminStatusLabel, getAdminRoleLabel, anchorEl],
+    [getAdminStatusLabel, getAdminRoleLabel],
   );
 
   // 7. effect hooks
@@ -261,6 +241,45 @@ export function MemberScreen() {
           />
         </Box>
       </Box>
+
+      {/* 더보기 메뉴 */}
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={() => setAnchorEl(null)}
+      >
+        <DialogButton
+          render={({ onOpen }) => <MenuItem onClick={onOpen}>수정</MenuItem>}
+        >
+          {({ onClose, onKeyDown }) => (
+            <AdminEditDialog
+              admin={selectedAdmin!}
+              onClose={() => {
+                onClose();
+                setAnchorEl(null);
+              }}
+              onKeyDown={onKeyDown}
+            />
+          )}
+        </DialogButton>
+        <DialogButton
+          render={({ onOpen }) => <MenuItem onClick={onOpen}>삭제</MenuItem>}
+        >
+          {({ onClose, onKeyDown }) => (
+            <DeleteConfirmDialog
+              onClose={() => {
+                onClose();
+                setAnchorEl(null);
+              }}
+              onKeyDown={onKeyDown}
+              onDelete={() => {
+                onClose();
+                setAnchorEl(null);
+              }}
+            />
+          )}
+        </DialogButton>
+      </Menu>
     </Box>
   );
 }
