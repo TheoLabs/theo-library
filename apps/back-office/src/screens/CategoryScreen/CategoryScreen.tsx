@@ -33,9 +33,16 @@ export function CategoryScreen() {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [filter, setFilter] = useState<{
+    searchKey: string;
+    searchValue: string;
+  }>({
+    searchKey: "name",
+    searchValue: "",
+  });
 
   // 4. query hooks
-  const { categories, isLoading } = useCategoryList({ page, limit });
+  const { categories, isLoading } = useCategoryList({ page, limit, filter });
 
   // 6. calculate values
   const columns = useMemo<GridColDef<CategoryModel>[]>(() => {
@@ -151,7 +158,8 @@ export function CategoryScreen() {
             summary="카테고리 전체 목록입니다."
             searchItems={[{ searchKey: "name", label: "카테고리명" }]}
             onSearch={(search) => {
-              console.log(search);
+              setFilter(search);
+              setPage(1);
             }}
             exportButton={<ExportButton />}
           />

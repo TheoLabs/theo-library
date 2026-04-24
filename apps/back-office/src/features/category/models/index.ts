@@ -14,8 +14,10 @@ export interface CategoryModel {
 export type CategoryCreateBody = ICategoryCreateDto;
 
 export interface CategoryListParams extends IPaginationParams {
-  searchKey?: string;
-  searchValue?: string;
+  filter?: {
+    searchKey?: string;
+    searchValue?: string;
+  };
 }
 
 export interface CategoryUpdateBody extends ICategoryUpdateDto {

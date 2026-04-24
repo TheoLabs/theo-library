@@ -184,12 +184,10 @@ export function ListViewHeader(props: {
                 },
               }}
             />
+            {filterButton}
           </Box>
         )}
-        <Box sx={{ display: "flex", gap: 4 }}>
-          {filterButton}
-          {exportButton}
-        </Box>
+        <Box sx={{ display: "flex", gap: 4 }}>{exportButton}</Box>
       </Box>
     </Box>
   );

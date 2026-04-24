@@ -12,9 +12,15 @@ export const categoryRepository = {
     return httpClient.post<void>("/categories", body);
   },
 
-  async list(params: CategoryListParams) {
+  async list({ sort, order, page, limit, filter }: CategoryListParams) {
     return httpClient.get<IPaginatedData<CategoryModel>>("/categories", {
-      params,
+      params: {
+        sort,
+        order,
+        page,
+        limit,
+        ...filter,
+      },
     });
   },
 
