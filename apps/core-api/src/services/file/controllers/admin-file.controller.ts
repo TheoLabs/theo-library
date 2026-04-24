@@ -15,8 +15,6 @@ export class AdminFileController {
   @UseInterceptors(FileInterceptor('file'))
   async upload(@UploadedFile() file: Express.Multer.File) {
     // 1. Destructure body, params, query
-
-    console.log(file);
     // 2. Get context
     // 3. Get result
     const data = await this.adminFileService.upload(file);
