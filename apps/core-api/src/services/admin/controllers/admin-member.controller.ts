@@ -1,7 +1,7 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Put, Query, Param, Body } from '@nestjs/common';
 import { AdminMemberService } from '../applications/admin-member.service';
 import { ApiTags } from '@nestjs/swagger';
-import { AdminMemberQueryDto } from './dto';
+import { AdminMemberQueryDto, AdminChangeStatusDto } from './dto';
 
 @ApiTags('관리자 API')
 @Controller('admins/members')
@@ -22,5 +22,19 @@ export class AdminMemberController {
 
     // 4. Send response
     return { data };
+  }
+
+  /**
+   * 관리자 상태 변경
+   */
+  @Put(':id/status')
+  async changeStatus(@Param('id') id: string, @Body() body: AdminChangeStatusDto) {
+    // 1. Destructure body, params, query
+    // 2. Get context
+    // 3. Get result
+    await this.adminMemberService.changeStatus({ id, ...body });
+
+    // 4. Send response
+    return { data: {} };
   }
 }

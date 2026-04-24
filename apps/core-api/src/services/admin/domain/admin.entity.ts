@@ -46,4 +46,8 @@ export class Admin extends DddAggregate {
   static of(args: Ctor) {
     return new Admin(args);
   }
+
+  changeStatus(status: AdminStatusType) {
+    this.status = status;
+  }
 }

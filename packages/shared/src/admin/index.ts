@@ -25,4 +25,10 @@ export interface IAdminResponse {
 export interface IAdminQueryDto {
   searchKey?: string;
   searchValue?: string;
+  roles?: AdminRoleType[];
+  statuses?: AdminStatusType[];
+}
+
+export interface IAdminChangeStatusDto {
+  status: AdminStatusType;
 }

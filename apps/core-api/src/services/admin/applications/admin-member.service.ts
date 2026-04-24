@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { DddService } from '@libs/ddd';
 import { AdminRepository } from '../repository/admin.repository';
 import { PaginationOptions } from '@libs/utils';
@@ -7,7 +7,7 @@ import { EventHandler, Transactional } from '@libs/decorators';
 import { ClientCreatedEvent } from '../../client/domain/events';
 import { QueueName } from '@databases';
 import { Admin } from '../domain/admin.entity';
-import { AdminRoleType } from '@theo-library/shared';
+import { AdminRoleType, AdminStatusType } from '@theo-library/shared';
 
 @Injectable()
 export class AdminMemberService extends DddService {
@@ -30,6 +30,19 @@ export class AdminMemberService extends DddService {
     ]);
 
     return { items: admins.map((admin) => admin.toInstance(AdminResponseDto)), total };
+  }
+
+  @Transactional()
+  async changeStatus({ id, status }: { id: string; status: AdminStatusType }) {
+    const [admin] = await this.adminRepository.find({ id });
+
+    if (!admin) {
+      throw new NotFoundException('관리자를 찾을 수 없습니다.', { cause: '관리자를 찾을 수 없습니다.' });
+    }
+
+    admin.changeStatus(status);
+
+    await this.adminRepository.save([admin]);
   }
 
   @Transactional()
