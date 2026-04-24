@@ -1,9 +1,22 @@
 import type { RedisOptions } from 'bullmq';
 import type { DataSourceOptions } from 'typeorm';
 
+export interface AwsConfig {
+  accessKey: string;
+  secretKey: string;
+  region: string;
+}
+
+export interface S3Options {
+  endpoint: string;
+  bucket: string;
+}
+
 interface AppConfig {
   mysql: DataSourceOptions;
   redis: RedisOptions;
+  aws: AwsConfig;
+  s3: S3Options;
 }
 
 export default (env: Record<string, any> = process.env): AppConfig => ({
@@ -18,5 +31,14 @@ export default (env: Record<string, any> = process.env): AppConfig => ({
   redis: {
     host: env.REDIS_HOST,
     port: 6379,
+  },
+  aws: {
+    accessKey: env.AWS_ACCESS_KEY_ID,
+    secretKey: env.AWS_SECRET_ACCESS_KEY,
+    region: env.AWS_REGION,
+  },
+  s3: {
+    endpoint: env.S3_ENDPOINT,
+    bucket: env.S3_BUCKET,
   },
 });

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { RedisOptions } from 'bullmq';
 import { type DataSourceOptions } from 'typeorm';
+import { AwsConfig, S3Options } from './configuration';
 
 @Injectable()
 export class ConfigsService {
@@ -21,5 +22,13 @@ export class ConfigsService {
 
   get redis() {
     return this.configService.get<RedisOptions>('redis')!;
+  }
+
+  get s3() {
+    return this.configService.get<S3Options>('s3')!;
+  }
+
+  get aws() {
+    return this.configService.get<AwsConfig>('aws')!;
   }
 }

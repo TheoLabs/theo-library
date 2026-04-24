@@ -9,9 +9,10 @@ import { CommonModule } from '@common/common.module';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { ExceptionFilter } from '@libs/filters';
 import { AdminModule } from '@services/admin.module';
+import { S3Module } from '@libs/s3';
 
 @Module({
-  imports: [ConfigsModule, DatabasesModule, CommonModule, EventEmitterModule.forRoot(), AdminModule],
+  imports: [ConfigsModule, DatabasesModule, CommonModule, S3Module, EventEmitterModule.forRoot(), AdminModule],
   controllers: [HealthController],
   providers: [
     TxIdSubscriber,
