@@ -8,6 +8,7 @@ import {
   type GridColDef,
   Pagination,
   MenuButton,
+  FilterChipGroup,
 } from "@components";
 import { theme } from "@libs/theme";
 import { useState, useMemo } from "react";
@@ -19,7 +20,18 @@ import {
 } from "@features/admin/hooks";
 import type { AdminModel } from "@features/admin/models";
 import { AdminRoleFilterMenu } from "@features/admin/components";
-import type { AdminRoleType, AdminStatusType } from "@theo-library/shared";
+import { AdminRoleType, AdminStatusType } from "@theo-library/shared";
+
+const ROLE_OPTIONS = [
+  { label: "사내 직원", value: AdminRoleType.SUPER },
+  { label: "도서관", value: AdminRoleType.LIBRARY },
+];
+
+const STATUS_OPTIONS = [
+  { label: "대기", value: AdminStatusType.PENDING },
+  { label: "활성", value: AdminStatusType.ACTIVE },
+  { label: "비활성", value: AdminStatusType.INACTIVE },
+];
 
 export function MemberScreen() {
   // 1. destructure props
@@ -175,7 +187,7 @@ export function MemberScreen() {
                     anchorEl={anchorEl}
                     initialValues={filter}
                     onChange={(values) => {
-                      setFilter(values);
+                      setFilter((prev) => ({ ...prev, ...values }));
                       setPage(1);
                     }}
                   />
@@ -183,6 +195,30 @@ export function MemberScreen() {
               </MenuButton>
             }
             exportButton={<ExportButton />}
+            appliedChips={
+              <Box sx={{ display: "flex", gap: 8 }}>
+                <FilterChipGroup
+                  options={ROLE_OPTIONS}
+                  selectedValues={filter.roles}
+                  onChange={(values) => {
+                    setFilter((prev) => ({ ...prev, roles: values }));
+                    setPage(1);
+                  }}
+                  viewMode
+                  category="역할"
+                />
+                <FilterChipGroup
+                  options={STATUS_OPTIONS}
+                  selectedValues={filter.statuses}
+                  onChange={(values) => {
+                    setFilter((prev) => ({ ...prev, statuses: values }));
+                    setPage(1);
+                  }}
+                  viewMode
+                  category="상태"
+                />
+              </Box>
+            }
           />
         </Box>
 

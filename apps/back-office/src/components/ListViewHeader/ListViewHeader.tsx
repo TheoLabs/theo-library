@@ -14,10 +14,18 @@ export function ListViewHeader(props: {
   onSearch?: (search: { searchKey: string; searchValue: string }) => void;
   filterButton?: React.ReactNode;
   exportButton?: React.ReactNode;
+  appliedChips?: React.ReactNode;
 }) {
   // 1. destructure props
-  const { title, summary, searchItems, onSearch, filterButton, exportButton } =
-    props;
+  const {
+    title,
+    summary,
+    searchItems,
+    onSearch,
+    filterButton,
+    exportButton,
+    appliedChips,
+  } = props;
 
   // 2. lib hooks
   // 3. state hooks
@@ -189,6 +197,7 @@ export function ListViewHeader(props: {
         )}
         <Box sx={{ display: "flex", gap: 4 }}>{exportButton}</Box>
       </Box>
+      <Box sx={{ display: "flex" }}>{appliedChips}</Box>
     </Box>
   );
 }
