@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { useClientList, useClientStatus } from "@features/client/hooks";
-import { CardBox, SearchTextField } from "@components";
+import {
+  CardBox,
+  DrawerButton,
+  FilterButton,
+  SearchTextField,
+} from "@components";
 import { theme } from "@libs/theme";
 import {
   Box,
@@ -13,6 +18,7 @@ import {
   Chip,
 } from "@mui/material";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import { ClientFilterDrawer } from "../ClientFilterDrawer";
 
 export function ClientSearchSection(props: {
   selectedClientId?: number;
@@ -46,20 +52,31 @@ export function ClientSearchSection(props: {
   // 9. render
   return (
     <CardBox sx={{ minWidth: "360px", flexDirection: "column", gap: 2 }}>
-      <SearchTextField
-        placeholder="도서관명을 입력하세요."
-        sx={{ width: "100%" }}
-        value={inputText}
-        onChange={(e) => setInputText(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            e.preventDefault();
-            setSearchValue(inputText);
-            onSelect(undefined);
-            setPage(1);
-          }
-        }}
-      />
+      <Box sx={{ display: "flex", gap: 2 }}>
+        <SearchTextField
+          placeholder="도서관명을 입력하세요."
+          sx={{ width: "100%" }}
+          value={inputText}
+          onChange={(e) => setInputText(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              setSearchValue(inputText);
+              onSelect(undefined);
+              setPage(1);
+            }
+          }}
+        />
+        <DrawerButton
+          render={({ onOpen }) => <FilterButton onlyIcon onClick={onOpen} />}
+        >
+          {({ open, onClose }) => (
+            <Box>
+              <ClientFilterDrawer open={open} onClose={onClose} />
+            </Box>
+          )}
+        </DrawerButton>
+      </Box>
 
       <Box
         sx={{
