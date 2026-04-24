@@ -2,6 +2,7 @@ export * from "./BaseLayout";
 export * from "./CalendarField";
 export * from "./CardBox";
 export * from "./CustomDataGrid";
+export * from "./DeleteConfirmDialog";
 export * from "./DialogButton";
 export * from "./DrawerButton";
 export * from "./ExportButton";

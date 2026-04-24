@@ -1,4 +1,4 @@
-import { Box, IconButton } from "@mui/material";
+import { Box, IconButton, Menu, MenuItem } from "@mui/material";
 import {
   Title,
   FilterButton,
@@ -9,10 +9,11 @@ import {
   Pagination,
   MenuButton,
   FilterChipGroup,
+  DialogButton,
+  DeleteConfirmDialog,
 } from "@components";
 import { theme } from "@libs/theme";
-import { useState, useMemo } from "react";
-import EditIcon from "@mui/icons-material/Edit";
+import React, { useState, useMemo } from "react";
 import {
   useAdminList,
   useAdminStatusLabel,
@@ -23,6 +24,7 @@ import {
 import type { AdminModel } from "@features/admin/models";
 import { AdminFilterMenu } from "@features/admin/components";
 import { AdminRoleType, AdminStatusType } from "@theo-library/shared";
+import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 
 export function MemberScreen() {
   // 1. destructure props
@@ -33,6 +35,7 @@ export function MemberScreen() {
   const statusOptions = useAdminStatusOptions();
 
   // 3. state hooks
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [filter, setFilter] = useState<{
@@ -103,26 +106,47 @@ export function MemberScreen() {
         },
       },
       {
-        field: "actions",
-        headerName: "액션",
-        width: 84,
-        renderCell: (params) => (
-          <IconButton
-            // onClick={() => handleEdit(params.row.id)}
-            sx={{
-              color: theme.palette.text.secondary,
-              "&:hover": {
-                backgroundColor: "rgba(0, 6, 102, 0.04)",
-                color: theme.palette.primary.main,
-              },
-            }}
-          >
-            <EditIcon sx={{ fontSize: "18px" }} />
-          </IconButton>
-        ),
+        field: "action",
+        headerName: "동작",
+        width: 80,
+        renderCell: ({ row }) => {
+          return (
+            <React.Fragment>
+              <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
+                <MoreVertRoundedIcon />
+              </IconButton>
+              <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={() => setAnchorEl(null)}
+              >
+                <DialogButton
+                  render={({ onOpen }) => (
+                    <MenuItem onClick={onOpen}>수정</MenuItem>
+                  )}
+                >
+                  {({ onClose, onKeyDown }) => <div>hi</div>}
+                </DialogButton>
+                <DialogButton
+                  render={({ onOpen }) => (
+                    <MenuItem onClick={onOpen}>삭제</MenuItem>
+                  )}
+                >
+                  {({ onClose, onKeyDown }) => (
+                    <DeleteConfirmDialog
+                      onClose={onClose}
+                      onKeyDown={onKeyDown}
+                      onDelete={() => {}}
+                    />
+                  )}
+                </DialogButton>
+              </Menu>
+            </React.Fragment>
+          );
+        },
       },
     ],
-    [getAdminStatusLabel, getAdminRoleLabel],
+    [getAdminStatusLabel, getAdminRoleLabel, anchorEl],
   );
 
   // 7. effect hooks
