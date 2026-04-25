@@ -73,8 +73,6 @@ export function SeriesAddDialog(props: {
     resolver: zodResolver(zodSchema),
   });
 
-  console.log(errors);
-
   // 6. calculate values
   const isDisabled = !isDirty || !isValid;
   const categoryOptions = useMemo(() => {

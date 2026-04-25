@@ -64,7 +64,7 @@ export function SeriesScreen() {
               alignItems: "center",
             }}
           >
-            <Typography variant="h6">도서관을 선택해주세요.</Typography>
+            <Typography variant="h6">시리즈를 선택해주세요.</Typography>
           </Box>
         )}
       </Box>

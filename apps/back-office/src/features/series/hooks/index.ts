@@ -6,6 +6,9 @@ import {
 } from "@tanstack/react-query";
 import { contractRepository } from "../api";
 import type { SeriesListParams, SeriesCreateBody } from "../models";
+import { SeriesStatus } from "@theo-library/shared";
+import { theme } from "@libs/theme";
+import { useCallback } from "react";
 
 // 1. Init query keys
 const seriesKeys = {
@@ -67,3 +70,19 @@ export const useSeriesCreate = () => {
 };
 
 // 4. Custom hooks
+export const useSeriesStatusLabel = () => {
+  return useCallback((status: SeriesStatus) => {
+    switch (status) {
+      case SeriesStatus.PENDING:
+        return { label: "대기", color: theme.palette.chip.gray };
+      case SeriesStatus.ONGOING:
+        return { label: "연재", color: theme.palette.chip.info };
+      case SeriesStatus.COMPLETED:
+        return { label: "완결", color: theme.palette.chip.success };
+      case SeriesStatus.SUSPENDED:
+        return { label: "중단", color: theme.palette.chip.warning };
+      default:
+        return { label: "알 수 없음", color: theme.palette.chip.error };
+    }
+  }, []);
+};

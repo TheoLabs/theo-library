@@ -13,6 +13,7 @@ export * from "./FilterAction";
 export * from "./FilterButton";
 export * from "./FilterChip";
 export * from "./FilterChipGroup";
+export * from "./ImagePreview";
 export * from "./InputField";
 export * from "./Navigation";
 export * from "./Pagination";

@@ -11,7 +11,7 @@ import { theme } from "@libs/theme";
 
 export function ViewField(props: {
   label: string;
-  value: string;
+  value: string | number;
   darkTheme?: boolean;
   url?: string;
   type?: "text" | "url" | "chip";

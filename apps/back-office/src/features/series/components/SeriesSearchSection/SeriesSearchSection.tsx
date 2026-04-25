@@ -9,7 +9,7 @@ import {
   ListItemText,
   CircularProgress,
 } from "@mui/material";
-import { SearchTextField, CardBox, FilterButton } from "@components";
+import { SearchTextField, CardBox } from "@components";
 import { useState, useRef, useEffect } from "react";
 import { useInfiniteSeriesList } from "../../hooks";
 import { theme } from "@libs/theme";
@@ -73,7 +73,7 @@ export function SeriesSearchSection(props: {
     >
       <Box sx={{ display: "flex", gap: 2 }}>
         <SearchTextField
-          placeholder="도서관명을 입력하세요."
+          placeholder="시리즈명을 입력하세요."
           sx={{ width: "100%" }}
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
@@ -85,9 +85,7 @@ export function SeriesSearchSection(props: {
             }
           }}
         />
-        <IconButton>
-          <FilterButton onlyIcon />
-        </IconButton>
+        <IconButton>{/* <FilterButton onlyIcon /> */}</IconButton>
       </Box>
 
       <Box

@@ -9,6 +9,7 @@ declare module "@mui/material/styles" {
       success: string;
       warning: string;
       error: string;
+      gray: string;
     };
   }
   interface PaletteOptions {
@@ -17,6 +18,7 @@ declare module "@mui/material/styles" {
       success: string;
       warning: string;
       error: string;
+      gray: string;
     };
   }
 }
@@ -47,6 +49,7 @@ export const theme = createTheme({
       success: "#4CAF50",
       warning: "#FF9800",
       error: "#F44336",
+      gray: "rgba(211, 212, 214, 1)",
     },
   },
   spacing: "4px",
