@@ -3,10 +3,14 @@ import { Transactional } from '@libs/decorators';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { SeriesRepository } from '@services/series/repository/series.repository';
 import { Series } from '@services/series/domain/series.entity';
+import { CategoryRepository } from '@services/category/repository/category.repository';
 
 @Injectable()
 export class AdminSeriesService extends DddService {
-  constructor(private readonly seriesRepository: SeriesRepository) {
+  constructor(
+    private readonly seriesRepository: SeriesRepository,
+    private readonly categoryRepository: CategoryRepository
+  ) {
     super();
   }
 
@@ -19,6 +23,7 @@ export class AdminSeriesService extends DddService {
     illustrator,
     publisher,
     publicationCycleDay,
+    categoryIds,
   }: {
     thumbnailImageUrl: string;
     title: string;
@@ -27,6 +32,7 @@ export class AdminSeriesService extends DddService {
     illustrator: string;
     publisher: string;
     publicationCycleDay: number;
+    categoryIds: number[];
   }) {
     const [existingSeries] = await this.seriesRepository.find({ title });
 
@@ -35,6 +41,8 @@ export class AdminSeriesService extends DddService {
         cause: `${title}은 이미 존재하는 시리즈입니다.`,
       });
     }
+
+    const categories = await this.categoryRepository.find({ ids: categoryIds });
 
     const series = Series.of({
       thumbnailImageUrl,
@@ -46,6 +54,7 @@ export class AdminSeriesService extends DddService {
       publicationCycleDay,
     });
 
+    series.setCategory(categories);
     await this.seriesRepository.save([series]);
   }
 

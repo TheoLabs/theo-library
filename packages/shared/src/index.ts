@@ -6,3 +6,4 @@ export * from "./contract/index.js";
 export * from "./series/index.js";
 export * from "./category/index.js";
 export * from "./common.js";
+export * from "./license/index.js";

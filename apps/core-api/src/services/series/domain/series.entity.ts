@@ -1,7 +1,8 @@
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { DddAggregate } from '@libs/ddd';
 import { type CalendarDate, SeriesStatus } from '@theo-library/shared';
 import { Category } from '@services/category/domain/category.entity';
+import { License } from '@services/license/domain/license.entity';
 
 type Ctor = {
   thumbnailImageUrl: string;
@@ -53,6 +54,9 @@ export class Series extends DddAggregate {
   @JoinTable({ name: 'series_categories' })
   categories: Category[];
 
+  @OneToMany(() => License, (license) => license.series, { cascade: true })
+  licenses: License[];
+
   private constructor(args: Ctor) {
     super();
 
@@ -74,5 +78,9 @@ export class Series extends DddAggregate {
 
   static of(args: Ctor) {
     return new Series(args);
+  }
+
+  setCategory(categories: Category[]) {
+    this.categories = categories;
   }
 }

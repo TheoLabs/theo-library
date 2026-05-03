@@ -36,7 +36,7 @@ export class AdminCategoryService extends DddService {
   @Transactional()
   async update({ id, name }: { id: number; name: string }) {
     const [[category, duplicatedCategory]] = await Promise.all([
-      this.categoryRepository.find({ id }),
+      this.categoryRepository.find({ ids: [id] }),
       this.categoryRepository.find({ name }),
     ]);
 
@@ -54,7 +54,7 @@ export class AdminCategoryService extends DddService {
 
   @Transactional()
   async remove({ id }: { id: number }) {
-    const [category] = await this.categoryRepository.find({ id });
+    const [category] = await this.categoryRepository.find({ ids: [id] });
 
     if (!category) {
       throw new BadRequestException('존재하지 않는 카테고리입니다.', { cause: '존재하지 않는 카테고리입니다.' });
